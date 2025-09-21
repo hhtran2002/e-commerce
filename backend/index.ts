@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { AppDataSource } from "../backend/config/data_source";
+import { AppDataSource } from "../backend/src/config/data_source";
 
 
 AppDataSource.initialize()
