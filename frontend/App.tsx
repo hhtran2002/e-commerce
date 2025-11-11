@@ -1,11 +1,11 @@
-import React from 'react';
-
+import { Routes, Route } from "react-router-dom";
+import Home from '../frontend/src/page/Home';
 function App() {
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Hello Ecommerce 🚀</h1>
-      <p>Vite + React + TypeScript đã chạy thành công!</p>
-    </div>
+    <Routes>
+      <Route path="/*" element={<Home />} />
+    </Routes>
+  
   );
 }
 
