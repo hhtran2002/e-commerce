@@ -1,0 +1,31 @@
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 40%;
+  padding: 12px 16px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.notification.success {
+  background-color: #4caf50;
+}
+
+.notification.error {
+  background-color: #f44336;
+}
+
+.notification .close-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  margin-left: 12px;
+  cursor: pointer;
+}

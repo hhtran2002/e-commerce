@@ -1,0 +1,55 @@
+/* Khung sidebar */
+.sidebar2 {
+  width: 250px;
+  min-width: 250px;
+  padding-right: 30px;
+  border-right: 1px solid #e5e5e5;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Danh sách */
+.sidebar2 ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Từng mục menu */
+.sidebar2 li {
+  margin-bottom: 18px;
+}
+
+/* Link */
+.sidebar2 a {
+  font-size: 15px;
+  text-decoration: none;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+  transition: 0.25s ease;
+}
+
+/* Hover giống stitched-lb */
+.sidebar2 a:hover {
+  color: #a87a68;
+}
+
+/* Trạng thái active – nếu bạn thêm active class */
+.sidebar2 a.active {
+  font-weight: 600;
+  color: #a87a68;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .sidebar2 {
+    width: 100%;
+    padding-bottom: 20px;
+    padding-right: 0;
+    border-right: none;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .sidebar2 li {
+    margin-bottom: 14px;
+  }
+}
