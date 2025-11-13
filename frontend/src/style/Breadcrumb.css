@@ -1,0 +1,37 @@
+.breadcrumb-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #222;
+  background: #f9fafb; /* xám nhạt */
+  border-bottom: 1px solid #eee;
+}
+
+.breadcrumb-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+
+  transition: background 0.2s ease;
+}
+
+.breadcrumb-back:hover {
+  background: rgba(0,0,0,0.06);
+}
+
+.breadcrumb-icon {
+  stroke: #222;
+  transition: transform 0.2s ease;
+}
+
+.breadcrumb-back:hover .breadcrumb-icon {
+  transform: translateX(-3px);
+}

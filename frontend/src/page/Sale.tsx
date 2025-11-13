@@ -1,0 +1,121 @@
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import ProductList from "../component/ProductList";
+import FilteredProductList from "../component/FilteredProductList";
+import Sidebar, { FilterOptions } from "../component/Sidebar";
+import Breadcrumb from "../component/Breadcrumb";
+import "../style/CategoryPage.css";
+import Pagination from "../component/Pagination";
+
+// Ở SALE có thể có slug kiểu: /sale/clothing, /sale/swimwear, /sale/accessories
+const mapCategoryToId = (category: string): number | null => {
+  const map: Record<string, number> = {
+    sale: 0,
+    clothing: 1,
+    swimwear: 0,     // nếu có parent id thật thì đổi 0
+    accessories: 0,
+  };
+  return map[category.toLowerCase()] ?? null;
+};
+
+// Tùy bạn muốn Sale bao gồm những category nào
+const saleAllCategoryIds = [1, 4, 5, 6, 7, 8, 11, 9, 10, 20, 21, 22, 23];
+
+const SalePage: React.FC = () => {
+  const { category } = useParams();
+  const categoryIdFromUrl = category ? mapCategoryToId(category) : null;
+
+  const categoryIdsToUse =
+    categoryIdFromUrl !== null && categoryIdFromUrl !== 0
+      ? [categoryIdFromUrl]
+      : saleAllCategoryIds;
+
+  const [page, setPage] = useState(1);
+  const limit = 12;
+  const [totalCount, setTotalCount] = useState(0);
+
+  const [filters, setFilters] = useState<FilterOptions>({});
+  const [isFiltering, setIsFiltering] = useState(false);
+
+  const handleFilterChange = (newFilters: FilterOptions) => {
+    setFilters(newFilters);
+    setIsFiltering(true);
+    setPage(1);
+  };
+
+  const handleClearFilters = () => {
+    setFilters({});
+    setIsFiltering(false);
+    setPage(1);
+  };
+
+  const totalPages = Math.ceil(totalCount / limit);
+
+  useEffect(() => {
+    setFilters({});
+    setIsFiltering(false);
+  }, [category]);
+
+  if (category && categoryIdFromUrl === null) {
+    return (
+      <main className="category-page sale-page">
+        <Breadcrumb title="Sale" />
+        <p style={{ padding: 24 }}>No matching categories found.</p>
+      </main>
+    );
+  }
+
+  return (
+    <main className="category-page sale-page">
+      <Breadcrumb title="Sale" />
+      <div className="content-container">
+        <Sidebar
+          onFilterChange={handleFilterChange}
+          allowedCategories={["Sale"]}
+        />
+
+        <div className="right-content">
+          {isFiltering && (
+            <div className="filter-bar">
+              <button className="filter-btn" onClick={handleClearFilters}>
+                Delete Filter
+              </button>
+            </div>
+          )}
+
+          <div className="category-products-wrapper">
+            {isFiltering ? (
+              <FilteredProductList
+                filters={filters}
+                parentCategoryId={0}
+                allowedSubcategoryIds={saleAllCategoryIds}
+                page={page}
+                limit={limit}
+                onTotalCountChange={setTotalCount}
+              />
+            ) : (
+              <ProductList
+                categoryIds={categoryIdsToUse}
+                page={page}
+                limit={limit}
+                onTotalCountChange={setTotalCount}
+              />
+            )}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="pagination-container">
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                onChange={setPage}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </main>
+  );
+};
+
+export default SalePage;
