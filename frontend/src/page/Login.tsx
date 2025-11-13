@@ -1,8 +1,7 @@
-// src/components/LoginSection.tsx
 import React, { useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
-import '../styles/LoginSection.css';
+import '../style/Login.css';
 
 const LoginSection: React.FC = () => {
   const [username, setUsername] = useState('');

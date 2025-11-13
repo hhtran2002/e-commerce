@@ -1,0 +1,109 @@
+.shopping-cart-page {
+    padding: 0px;
+  }
+  
+  .cart-container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+  }
+  
+  .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .cart-table th, .cart-table td {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .cart-item .product-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .product-img {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+  }
+  
+  .cart-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .coupon-input {
+    padding: 5px;
+    width: 400px;
+  }
+  
+  .apply-coupon, .checkout-btn {
+    padding: 10px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .cart-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  
+  .cart-items {
+    flex: 2; /* Chiếm 2 phần của container */
+  }
+  
+  .cart-summary {
+    flex: 1;
+    border: 1px solid #ddd;
+    padding: 30px; /* Tăng padding để có khoảng cách rộng hơn */
+    background: #f9f9f9;
+}
+
+/* Tạo khoảng cách giữa các dòng trong Cart Summary */
+.cart-summary .summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px; /* Tăng khoảng cách giữa các dòng */
+}
+
+.cart-summary h3 {
+    margin-bottom: 30px; /* Khoảng cách dưới tiêu đề */
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* Tăng khoảng cách giữa các chữ bên trong */
+.cart-summary span {
+    line-height: 2.5; /* Tăng khoảng cách giữa các dòng chữ */
+    font-size: 18px;
+}
+
+/* Làm nổi bật tổng tiền */
+.cart-summary .total {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+/* Nút Checkout */
+.checkout-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 30px;
+    text-transform: uppercase;
+}
+
+  

@@ -1,0 +1,134 @@
+/* Related Products Section
+.related-products h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .related-products-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    overflow-x: hidden;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .related-product-item {
+    text-align: center;
+    flex: 1;
+    max-width: 200px;
+  }
+  
+  .related-product-item img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  .related-product-item img:hover {
+    transform: scale(1.15);
+  }
+  
+  .related-product-item p {
+    margin: 5px 0;
+  }
+  
+  .related-product-item .price {
+    font-weight: bold;
+  }
+  
+  .pagination-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .dot.active {
+    background-color: #000;
+  } */
+
+  /* Related Products Section */
+.related-products h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.related-products-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.related-product-item {
+  text-align: center;
+  width: 280px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.related-product-item:hover {
+  transform: scale(1.05);
+}
+
+.related-product-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.related-product-item .product-name {
+  font-size: 18px;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.related-product-item .product-price {
+  font-size: 16px;
+  color: #000;
+  font-weight: bold;
+}
+
+.related-product-item .old-price {
+  font-size: 14px;
+  color: #777;
+  text-decoration: line-through;
+  margin-left: 8px;
+}
+
+.pagination-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: #000;
+}
