@@ -1,0 +1,50 @@
+.user-management-container {
+    width: 100%;
+    min-height: 800px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+  }
+  
+  .user-management-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #222;
+  }
+  
+  .user-management-action {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    text-align: left;
+  }
+  
+  .btn-add {
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-add:hover {
+    background-color: #388e3c;
+  }
+
+.back-button {
+  background-color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+  margin-left: 20px;
+}
+
+.back-button:hover {
+  background-color: #ddd;
+}

@@ -1,0 +1,108 @@
+/* ====== LAYOUT CHUNG ====== */
+.admin-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: "Inter", Arial, sans-serif;
+  background-color: #f4f5f7;
+}
+
+/* ====== SIDEBAR ====== */
+.sidebar {
+  width: 240px;
+  background-color: #1f1f1f;
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+/* Logo */
+.logo {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 35px;
+  text-align: center;
+}
+
+/* Menu */
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  margin-bottom: 18px;
+}
+
+/* Menu link */
+.menu a {
+  color: #dcdcdc;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 10px 14px;
+  display: block;
+  border-radius: 8px;
+  transition: 0.25s ease;
+}
+
+/* Hover */
+.menu a:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Active link (nếu có class) */
+.menu a.active {
+  background-color: #4c84ff;
+  color: white;
+}
+
+/* ====== CONTENT AREA ====== */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.content {
+  padding: 30px;
+}
+
+/* Tiêu đề trang */
+.content h1 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 900px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px 20px;
+  }
+
+  .menu {
+    display: flex;
+    gap: 20px;
+  }
+
+  .menu li {
+    margin-bottom: 0;
+  }
+
+  .content {
+    padding: 20px;
+  }
+}
