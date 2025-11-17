@@ -10,9 +10,6 @@ export class Size {
   @Column({ length: 255 })
   name!: string;
 
-  @OneToMany(() => Product, (p) => p.size)
-  products!: Product[];
-
   @OneToMany(() => ProductItem, (pi) => pi.size)
   productItems!: ProductItem[];
 }
