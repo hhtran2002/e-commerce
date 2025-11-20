@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { AppDataSource } from "../backend/src/config/data_source";
-
+import "./src/config/cloudinary";
 
 AppDataSource.initialize()
   .then(async () => {

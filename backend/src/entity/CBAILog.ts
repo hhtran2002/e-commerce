@@ -5,7 +5,7 @@ export class AILog {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  // Tài liệu ghi conversationId là varchar(255)
+
   @Column({ length: 255 })
   conversationId!: string;
 

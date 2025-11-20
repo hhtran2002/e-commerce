@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
 import { ProductItem } from "./ProductItem";
 
 @Entity({ name: "images" })
@@ -9,6 +9,6 @@ export class Image {
   @Column({ length: 255 })
   imageUrl!: string;
 
-  @OneToMany(() => ProductItem, (pi) => pi.image)
-  productItems!: ProductItem[];
+  @ManyToOne(() => ProductItem, (pi) => pi.images, { onDelete: "CASCADE" })
+  productItem!: ProductItem;
 }

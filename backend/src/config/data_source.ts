@@ -19,7 +19,7 @@ const ENV = {
   DBNAME: mustGet("DB_NAME"),
   ENCRYPT: (process.env.DB_ENCRYPT ?? "false") === "true",
   TRUST_CERT: (process.env.DB_TRUST_SERVER_CERTIFICATE ?? "true") === "true",
-  // INSTANCE_NAME: process.env.INSTANCE_NAME, // nếu dùng SQLEXPRESS
+  INSTANCE_NAME: process.env.INSTANCE_NAME,
 };
 
 // === import entities của bạn ===
