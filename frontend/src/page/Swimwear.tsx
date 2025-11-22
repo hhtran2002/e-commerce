@@ -22,7 +22,7 @@ const mapCategoryToId = (category: string): number | null => {
 // Danh sách category id cần hiển thị trong trang Swimwear
 const swimwearSubcategoryIds = [20, 21, 22, 23];
 
-const SwimwearPage: React.FC = () => {
+const Swimwear: React.FC = () => {
   const { category } = useParams();
   const categoryIdFromUrl = category ? mapCategoryToId(category) : null;
 
@@ -120,4 +120,4 @@ const SwimwearPage: React.FC = () => {
   );
 };
 
-export default SwimwearPage;
+export default Swimwear;

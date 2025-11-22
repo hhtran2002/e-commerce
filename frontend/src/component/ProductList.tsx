@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/ProductList.css";
+import "../style/ProductList.css";
 import ProductCard from "./ProductCard";
 import ShoppingCartPopup from "../component/ShoppingCartPopup";
 import { useCart } from "../context/CartContext";

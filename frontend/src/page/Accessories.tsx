@@ -19,7 +19,7 @@ const mapCategoryToId = (category: string): number | null => {
 
 const accessoriesSubcategoryIds = [9, 10];
 
-const AccessoriesPage: React.FC = () => {
+const Accessories: React.FC = () => {
   const { category } = useParams();
   const categoryIdFromUrl = category ? mapCategoryToId(category) : null;
 
@@ -114,4 +114,4 @@ const AccessoriesPage: React.FC = () => {
   );
 };
 
-export default AccessoriesPage;
+export default Accessories;

@@ -26,9 +26,6 @@ const Footer: React.FC = () => {
             <li><a href="#">My account</a></li>
             <li><a href="#">Get in Touch</a></li>
             <li><a href="#">About</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms and Conditions</a></li>
-            <li><a href="#">Price Match Policy</a></li>
           </ul>
         </div>
         <div>
@@ -46,11 +43,6 @@ const Footer: React.FC = () => {
             </a>
           </div>
         </div>
-      </div>
-      <div className="footer-bottom">
-        <p>STITCHED © 2024 | DESIGNED & DEVELOPED BY 
-          <a href="https://www.tedmob.com" target="_blank" rel="noopener noreferrer" className="instagram-link"> TEDMOB.COM</a>
-        </p>
       </div>
     </div>
   );
