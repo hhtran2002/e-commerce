@@ -1,0 +1,208 @@
+/* ==== RESET ==== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ==== NAVBAR WRAPPER ==== */
+.navbar-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ==== LEFT & RIGHT NAV ==== */
+.nav-section {
+  display: flex;
+  align-items: center;
+}
+
+.nav_link {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+/* ==== MAIN NAV ITEMS ==== */
+.nav_link > li > a {
+  text-decoration: none;
+  color: #111;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  position: relative;
+  padding: 6px 0;
+}
+
+.nav_link > li > a:hover {
+  color: #000;
+}
+
+/* underline effect */
+.nav_link > li > a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 1.5px;
+  background: black;
+  transition: .3s;
+}
+
+.nav_link > li > a:hover::after {
+  width: 100%;
+}
+
+/* ==== DROPDOWN MENU ==== */
+.drop-down-menu {
+  position: relative;
+}
+
+.drop-down {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: white;
+  border: 1px solid #eee;
+  min-width: 180px;
+  padding: 10px 0;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.drop-down-menu:hover .drop-down {
+  display: flex;
+}
+
+.drop-down li {
+  list-style: none;
+}
+
+.drop-down a {
+  padding: 8px 15px;
+  display: block;
+  text-decoration: none;
+  font-size: 13px;
+  color: #333;
+}
+
+.drop-down a:hover {
+  background: #f7f7f7;
+  color: #000;
+}
+
+/* ==== ICONS ==== */
+.icon-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.icon-button,
+.cart-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #222;
+  transition: .2s;
+}
+
+.icon-button:hover,
+.cart-button:hover {
+  color: black;
+  transform: scale(1.1);
+}
+
+/* ==== SEARCH POPUP ==== */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
+  z-index: 999;
+}
+
+.search-popup-container {
+  position: fixed;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 20px;
+  z-index: 1001;
+  transition: .35s ease;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.search-popup-container.show {
+  top: 0;
+}
+
+.search-popup {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.search-popup input {
+  width: 50%;
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+.search-popup input:focus {
+  border: 1px solid black;
+}
+
+.search-popup button {
+  padding: 12px 20px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.close-search {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ==== MOBILE ==== */
+@media (max-width: 768px) {
+  .nav_link {
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .search-popup input {
+    width: 70%;
+  }
+}

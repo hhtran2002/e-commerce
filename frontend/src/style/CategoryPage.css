@@ -1,0 +1,74 @@
+/* Gốc cho 4 trang: Clothing, Swimwear, Accessories, Sale */
+.category-page,
+.clothing-page,
+.swimwear-page,
+.accessories-page,
+.sale-page {
+  min-height: 60vh;
+  background: #fff;
+}
+
+/* Bọc nội dung (sidebar + product list) */
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+/* Sidebar bên trái đã có width trong Sidebar.css, nên ở đây chỉ cần flex-shrink */
+.content-container > aside,
+.content-container .sidebar {
+  flex-shrink: 0;
+}
+
+/* Cột bên phải chứa products + pagination */
+.right-content {
+  flex: 1;
+}
+
+/* Thanh nhỏ phía trên danh sách khi có filter */
+.filter-bar {
+  margin-bottom: 16px;
+  text-align: right;
+}
+
+/* Nút Delete Filter tái sử dụng style filter-btn ở Sidebar nếu có
+   Nếu chưa có thì thêm nhẹ ở đây */
+.filter-btn {
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filter-btn:hover {
+  background: #f5f5f5;
+}
+
+/* Bọc danh sách sản phẩm (ProductList / FilteredProductList) */
+.category-products-wrapper,
+.clothing-wrapper {
+  min-height: 300px;
+}
+
+/* Pagination ở dưới */
+.pagination-container {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+/* --------- Responsive ---------- */
+@media (max-width: 900px) {
+  .content-container {
+    flex-direction: column;
+  }
+}

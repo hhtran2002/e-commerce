@@ -1,0 +1,155 @@
+/* Toàn trang My Account */
+.my-account {
+  width: 100%;
+  padding: 40px 0;
+  background-color: #fff;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Layout: Sidebar + Content */
+.account-content {
+  width: 90%;
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 50px;
+}
+
+/* Sidebar */
+.account-sidebar,
+.sidebar2-wrapper {
+  width: 250px;
+  min-width: 250px;
+  border-right: 1px solid #e5e5e5;
+  padding-right: 30px;
+}
+
+.account-sidebar ul,
+.sidebar2-wrapper ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.account-sidebar li,
+.sidebar2-wrapper li {
+  margin-bottom: 18px;
+}
+
+.account-sidebar a,
+.sidebar2-wrapper a {
+  font-size: 15px;
+  color: #1a1a1a;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: 0.3s;
+}
+
+.account-sidebar a:hover,
+.sidebar2-wrapper a:hover {
+  color: #a87a68; /* giống màu trang stitched */
+}
+
+/* Mục đang active */
+.sidebar-active {
+  font-weight: 600;
+  color: #a87a68 !important;
+}
+
+/* Nội dung bên phải */
+.account-details {
+  flex: 1;
+  min-height: 300px;
+  padding: 10px 0 50px;
+}
+
+/* Title lớn như stitched */
+.account-details h2 {
+  font-size: 26px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 25px;
+  font-weight: 500;
+}
+
+/* Bảng Order */
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.order-table th {
+  text-align: left;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.order-table td {
+  padding: 14px 0;
+  border-bottom: 1px solid #f3f3f3;
+  font-size: 14px;
+  color: #444;
+}
+
+/* Address + Account Detail form */
+.account-form {
+  max-width: 500px;
+}
+
+.account-form label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.account-form input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  margin-bottom: 18px;
+  font-size: 14px;
+  border-radius: 3px;
+  transition: 0.2s;
+}
+
+.account-form input:focus {
+  outline: none;
+  border-color: #a87a68;
+}
+
+/* Nút */
+.btn-save {
+  padding: 12px 28px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-transform: uppercase;
+}
+
+.btn-save:hover {
+  background-color: #333;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .account-content {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .account-sidebar,
+  .sidebar2-wrapper {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 15px;
+  }
+}

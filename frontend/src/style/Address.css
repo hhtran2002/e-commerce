@@ -1,0 +1,42 @@
+.address-page {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+.address-info {
+  font-size: 16px;
+  color: #555;
+}
+
+.address-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.address-section {
+  width: 100%;
+}
+
+.address-section h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.add-address {
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+}
+
+.add-address:hover {
+  text-decoration: underline;
+}
+
+.no-address {
+  font-style: italic;
+  color: #666;
+  margin-top: 5px;
+}

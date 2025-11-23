@@ -1,0 +1,133 @@
+/* Nút bong bóng góc phải dưới */
+.chat-bubble-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: #000;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  z-index: 999;
+}
+
+/* Cửa sổ chat */
+.chat-widget {
+  position: fixed;
+  right: 20px;
+  bottom: 80px;
+  width: 320px;
+  max-height: 70vh;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 998;
+  font-size: 14px;
+}
+
+/* Header */
+.chat-header {
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-title {
+  font-weight: 600;
+}
+
+.chat-subtitle {
+  font-size: 11px;
+  color: #777;
+}
+
+.chat-close-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Body */
+.chat-body {
+  padding: 10px;
+  flex: 1;
+  overflow-y: auto;
+  background: #fafafa;
+}
+
+/* Message bubble */
+.chat-message {
+  display: flex;
+  margin-bottom: 6px;
+}
+
+.chat-message.from-user {
+  justify-content: flex-end;
+}
+
+.chat-message.from-bot {
+  justify-content: flex-start;
+}
+
+.chat-bubble {
+  max-width: 80%;
+  padding: 8px 10px;
+  border-radius: 12px;
+  line-height: 1.4;
+}
+
+.from-user .chat-bubble {
+  background: #000;
+  color: #fff;
+  border-bottom-right-radius: 2px;
+}
+
+.from-bot .chat-bubble {
+  background: #fff;
+  border: 1px solid #eee;
+  border-bottom-left-radius: 2px;
+}
+
+/* Input */
+.chat-input-area {
+  display: flex;
+  border-top: 1px solid #eee;
+}
+
+.chat-input-area input {
+  flex: 1;
+  border: none;
+  padding: 8px 10px;
+  font-size: 14px;
+  outline: none;
+}
+
+.chat-input-area button {
+  border: none;
+  background: #000;
+  color: #fff;
+  padding: 0 14px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.chat-input-area button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Typing bubble */
+.typing {
+  font-style: italic;
+  color: #666;
+}

@@ -1,0 +1,191 @@
+/* =============== Sidebar Container =============== */
+.sidebar {
+  width: 260px;
+  padding: 20px;
+  background: #fff;
+  border-right: 1px solid #eee;
+  font-family: inherit;
+}
+
+.sidebar h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 20px 0 10px;
+  color: #222;
+  letter-spacing: 0.5px;
+}
+
+/* Remove list bullets */
+.no-bullets {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+/* Divider */
+.section-divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+}
+
+/* =============== Categories =============== */
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.category-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+}
+
+.ti-wrapper i {
+  font-size: 14px;
+  color: #444;
+}
+
+/* Slide-down animation wrapper */
+.subcategory-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  padding-left: 12px;
+}
+
+.subcategory-list li {
+  padding: 6px 0;
+  cursor: pointer;
+  font-size: 14px;
+  color: #555;
+  transition: color 0.2s;
+}
+
+.subcategory-list li:hover {
+  color: #000;
+}
+
+.subcategory-list li.active {
+  color: #000;
+  font-weight: 600;
+}
+
+/* =============== Price Filter =============== */
+.price-range-container {
+  margin-top: 15px;
+}
+
+.price-label {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  color: #222;
+  margin-top: 8px;
+}
+
+/* =============== Color Filter =============== */
+.color-filter-container {
+  margin-top: 10px;
+}
+
+.color-filter li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  cursor: pointer;
+  font-size: 14px;
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+.color-filter li:hover {
+  color: #000;
+}
+
+.color-filter li.active {
+  color: #000;
+  font-weight: 600;
+}
+
+/* Color box */
+.color-box {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+/* Named colors */
+.color-box.blue { background: #1e90ff; }
+.color-box.black { background: #111; }
+.color-box.green { background: #2ecc71; }
+.color-box.pink { background: #ff7eb9; }
+.color-box.red { background: #e74c3c; }
+.color-box.brown { background: #8b4513; }
+.color-box.yellow { background: #f1c40f; }
+.color-box.purple { background: #9b59b6; }
+.color-box.white { background: #fff; border: 1px solid #ddd; }
+
+/* =============== Size Filter =============== */
+.size-filter {
+  margin-top: 10px;
+}
+
+.size-item {
+  display: inline-block;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.size-label {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.size-item:hover .size-label {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+.size-item.active .size-label {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* =============== Filter Button =============== */
+.filter-btn {
+  width: 100%;
+  padding: 12px 0;
+  background: #111;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: opacity 0.2s ease;
+}
+
+.filter-btn:hover {
+  opacity: 0.85;
+}
+
+/* =============== Responsive =============== */
+@media (max-width: 900px) {
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+  }
+}

@@ -1,0 +1,131 @@
+.na-section {
+  padding: 48px 0 64px;
+  background: #fff;
+}
+
+.na-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  position: relative;
+}
+
+.na-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  letter-spacing: 0.5px;
+}
+
+.na-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 24%;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 6px 12px 6px 6px;
+}
+
+.na-track::-webkit-scrollbar {
+  height: 8px;
+}
+.na-track::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 999px;
+}
+
+@media (max-width: 1024px) {
+  .na-track { grid-auto-columns: 33.333%; }
+}
+@media (max-width: 768px) {
+  .na-track { grid-auto-columns: 50%; }
+}
+@media (max-width: 520px) {
+  .na-track { grid-auto-columns: 85%; }
+}
+
+.na-card {
+  background: #fff;
+  border: 1px solid #eee;
+  scroll-snap-align: start;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.na-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+}
+
+.na-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: #f8f8f8;
+}
+.na-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.na-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #333;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.6px;
+}
+
+.na-info {
+  text-align: center;
+  padding: 14px 12px 18px;
+}
+.na-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 8px 0 6px;
+}
+.na-price {
+  font-size: 18px;
+  font-weight: 700;
+}
+.na-currency { font-weight: 700; }
+
+.na-arrow {
+  position: absolute;
+  top: 48%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 18px rgba(0,0,0,.06);
+  cursor: pointer;
+  z-index: 2;
+  font-size: 28px;
+  line-height: 38px;
+  text-align: center;
+  user-select: none;
+  transition: background .2s ease, transform .1s ease;
+}
+.na-arrow:hover { background: #f7f7f7; }
+.na-arrow:active { transform: translateY(-50%) scale(.96); }
+
+.na-left  { left: -4px; }
+.na-right { right: -4px; }
+
+@media (max-width: 520px) {
+  .na-left  { left: 6px; }
+  .na-right { right: 6px; }
+}

@@ -1,0 +1,198 @@
+.category-admin {
+  padding: 30px;
+  color: #333;
+  font-family: "Inter", Arial, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.category-admin__title {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Thanh control phía trên (thêm, chọn cha, search) */
+.category-admin__controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.category-input,
+.category-select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 200px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+  flex: 1 1 200px;
+}
+
+.category-input:focus,
+.category-select:focus {
+  border-color: #4c84ff;
+  box-shadow: 0 0 0 2px rgba(76, 132, 255, 0.15);
+}
+
+/* Nút chung */
+.category-btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+/* Nút thêm */
+.category-btn--add {
+  background-color: #1f1f1f;
+  color: white;
+}
+
+.category-btn--add:hover {
+  background-color: #333;
+}
+
+/* Nút sửa */
+.category-btn--edit {
+  background-color: #f0f0f0;
+  color: #333;
+  margin-left: 8px;
+}
+
+.category-btn--edit:hover {
+  background-color: #e0e0e0;
+}
+
+/* Nút xoá */
+.category-btn--delete {
+  background-color: #ff4d4f;
+  color: white;
+  margin-left: 6px;
+}
+
+.category-btn--delete:hover {
+  background-color: #d9363e;
+}
+
+/* Nút lưu & cancel trong edit */
+.category-btn--save {
+  background-color: #52c41a;
+  color: white;
+  margin-left: 8px;
+}
+
+.category-btn--save:hover {
+  background-color: #3f8c14;
+}
+
+.category-btn--cancel {
+  background-color: #f0f0f0;
+  color: #333;
+  margin-left: 6px;
+}
+
+.category-btn--cancel:hover {
+  background-color: #e0e0e0;
+}
+
+/* Khung list */
+.category-list {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  background-color: #fff;
+}
+
+/* Từng dòng category */
+.category-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f1f1f1;
+  background-color: #fff;
+}
+
+.category-row:last-child {
+  border-bottom: none;
+}
+
+/* Icon expand/collapse */
+.category-toggle,
+.category-toggle-placeholder {
+  width: 20px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+}
+
+.category-toggle {
+  padding: 0 4px;
+}
+
+.category-toggle-placeholder {
+  cursor: default;
+}
+
+/* Tên danh mục */
+.category-name {
+  flex: 1;
+  font-size: 14px;
+}
+
+/* Input edit */
+.category-edit-input {
+  flex: 1;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.category-edit-input:focus {
+  outline: none;
+  border-color: #4c84ff;
+  box-shadow: 0 0 0 2px rgba(76, 132, 255, 0.15);
+}
+
+/* Highlight text khi search */
+.category-name mark {
+  background-color: #ffe58f;
+  padding: 0 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .category-admin {
+    padding: 20px;
+  }
+
+  .category-admin__controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .category-input,
+  .category-select {
+    flex: 1 1 auto;
+  }
+
+  .category-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
