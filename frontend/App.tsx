@@ -6,6 +6,11 @@ import Accessories from "./src/page/Accessories";
 import Sale from "./src/page/Sale";
 import ClothingPage from "../frontend/src/page/Clothing";
 import ItemPage from "./src/page/ItemPage";
+import OrderManagement from "./src/component/OrderAdmin";
+import UserManagement from "./src/component/UserAdmin";
+import ProductManagement from "./src/component/ProductAdmin";
+import AdminDashboard from "./src/component/Dashboard";
+import Admin from "./src/page/Admin";
 
 function App() {
   return (
@@ -32,6 +37,13 @@ function App() {
         {/* Trang chi tiết sản phẩm */}
         <Route path="/product/:productId" element={<ItemPage />} />
 
+        {/* ==== SITE ADMIN ==== */}
+        <Route path="/admin" element={<Admin />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="products" element={<ProductManagement />} />
+          <Route path="users" element={<UserManagement />} />
+          <Route path="orders" element={<OrderManagement />} />
+        </Route>
       </Routes>
     </>
   );

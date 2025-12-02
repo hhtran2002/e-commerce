@@ -17,7 +17,7 @@ const UserManagement = () => {
   const totalPages = Math.ceil(totalCount / limit);
 
   const loadUsers = () => {
-    fetch(`http://localhost:3001/api/users?page=${page}&limit=${limit}`, {
+    fetch(`http://localhost:3000/api/users?page=${page}&limit=${limit}`, {
       headers: {
         'Authorization': `Bearer ${sessionStorage.getItem('token') || ''}`
       }
@@ -33,7 +33,7 @@ const UserManagement = () => {
 
 
   useEffect(() => {
-    fetch(`http://localhost:3001/api/users?page=${page}&limit=${limit}`, {
+    fetch(`http://localhost:3000/api/users?page=${page}&limit=${limit}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${sessionStorage.getItem('token') || ''}`
@@ -64,7 +64,7 @@ const UserManagement = () => {
 
   const handleDelete = (id: number) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
-      fetch(`http://localhost:3001/api/users/${id}`, {
+      fetch(`http://localhost:3000/api/users/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ const UserManagement = () => {
 
   const handleFormSubmit = (user: UserInput | User) => {
     if ('id' in user) {
-      fetch(`http://localhost:3001/api/users/${user.id}`, {
+      fetch(`http://localhost:3000/api/users/${user.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ const UserManagement = () => {
         })
         .catch(err => console.error('Error updating user:', err));
     } else {
-      fetch('http://localhost:3001/api/auth/register', {
+      fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)

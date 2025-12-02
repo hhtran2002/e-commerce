@@ -29,7 +29,7 @@ const CategoryAdmin: React.FC = () => {
   const [searching, setSearching] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/categories")
+    fetch("http://localhost:3000/api/categories")
       .then((res) => res.json())
       .then((data: Category[]) => {
         setFlatCategories(data);
@@ -98,7 +98,7 @@ const CategoryAdmin: React.FC = () => {
       alert("Vui lòng nhập tên");
       return;
     }
-    fetch("http://localhost:3001/api/categories/create", {
+    fetch("http://localhost:3000/api/categories/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: newName, parent_id: selectedParent }),
@@ -111,7 +111,7 @@ const CategoryAdmin: React.FC = () => {
   };
 
   const handleUpdate = () => {
-    fetch(`http://localhost:3001/api/categories/${editingId}`, {
+    fetch(`http://localhost:3000/api/categories/${editingId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" , 'Authorization': 'Bearer ' + sessionStorage.getItem('token') || ''},
       body: JSON.stringify({ name: editingName }),
@@ -120,7 +120,7 @@ const CategoryAdmin: React.FC = () => {
 
   const handleDelete = (id: number) => {
     if (window.confirm("Bạn có chắc chắn xoá?")) {
-      fetch(`http://localhost:3001/api/categories/${id}/delete`, {
+      fetch(`http://localhost:3000/api/categories/${id}/delete`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" , 'Authorization': 'Bearer ' + sessionStorage.getItem('token') || ''},
       }).then(() => window.location.reload());

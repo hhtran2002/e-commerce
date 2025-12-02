@@ -20,7 +20,7 @@ interface Props {
 const InvoiceButton: React.FC<Props> = ({ id }) => {
   const handleDownloadInvoice = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/admin/api/orders/${id}`,
+      const res = await fetch(`http://localhost:3000/admin/api/orders/${id}`,
           {
             headers:{
               'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
@@ -49,7 +49,7 @@ const InvoiceButton: React.FC<Props> = ({ id }) => {
       };
 
       const response = await fetch(
-        "http://localhost:3001/api/invoice/generate-invoice",
+        "http://localhost:3000/api/invoice/generate-invoice",
         {
           method: "POST",
           headers: { "Content-Type": "application/json",

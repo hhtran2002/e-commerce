@@ -69,8 +69,8 @@ const ProductManagement = () => {
 
   const loadProducts = () => {
     const url = fetchAll
-      ? 'http://localhost:3001/api/products'
-      : `http://localhost:3001/api/products?page=${page}&limit=${limit}`;
+      ? 'http://localhost:3000/api/products'
+      : `http://localhost:3000/api/products?page=${page}&limit=${limit}`;
     fetch(url)
       .then(res => res.json())
       .then(data => {
@@ -88,7 +88,7 @@ const ProductManagement = () => {
   useEffect(() => { loadProducts(); }, [page, fetchAll]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/categories')
+    fetch('http://localhost:3000/api/categories')
       .then(res => res.json())
       .then(data => setCategories(data))
       .catch(err => console.error('Lỗi khi tải danh mục:', err));
@@ -101,7 +101,7 @@ const ProductManagement = () => {
 
   const handleDelete = (id: number) => {
     if (window.confirm('Xác nhận xoá sản phẩm này?')) {
-      fetch(`http://localhost:3001/api/products/${id}`, { method: 'DELETE' ,
+      fetch(`http://localhost:3000/api/products/${id}`, { method: 'DELETE' ,
           headers:{
             'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
           }
@@ -158,7 +158,7 @@ const ProductManagement = () => {
           const formDataUpload = new FormData();
           formDataUpload.append('image', file);
 
-          const res = await fetch('http://localhost:3001/api/upload', {
+          const res = await fetch('http://localhost:3000/api/upload', {
             method: 'POST',
             headers:{
               'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
@@ -190,7 +190,7 @@ const ProductManagement = () => {
 
       if (editingProduct) {
         // Update existing product
-        await fetch(`http://localhost:3001/api/products/${editingProduct.id}`, {
+        await fetch(`http://localhost:3000/api/products/${editingProduct.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json',
 
@@ -207,7 +207,7 @@ const ProductManagement = () => {
         const productItemId = editingProduct.productItems?.[0]?.id;
 
         if (productItemId) {
-          await fetch(`http://localhost:3001/api/product-items/${productItemId}`, {
+          await fetch(`http://localhost:3000/api/product-items/${productItemId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json',
 
@@ -223,7 +223,7 @@ const ProductManagement = () => {
         }
 
         // Luôn gọi API set discount, kể cả khi discount = 0
-        await fetch('http://localhost:3001/api/product-promotions/set-discount', {
+        await fetch('http://localhost:3000/api/product-promotions/set-discount', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json',
 
@@ -238,7 +238,7 @@ const ProductManagement = () => {
         });
       } else {
         // Create new product
-        const res = await fetch('http://localhost:3001/api/products', {
+        const res = await fetch('http://localhost:3000/api/products', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' ,
 
@@ -253,7 +253,7 @@ const ProductManagement = () => {
 
         const newProduct = await res.json();
 
-        await fetch(`http://localhost:3001/api/product-items`, {
+        await fetch(`http://localhost:3000/api/product-items`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json',
 
@@ -268,7 +268,7 @@ const ProductManagement = () => {
         });
 
         if (formData.discount > 0) {
-          await fetch('http://localhost:3001/api/product-promotions/set-discount', {
+          await fetch('http://localhost:3000/api/product-promotions/set-discount', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' ,
             'Authorization': `Bearer ${sessionStorage.getItem("token")}`,

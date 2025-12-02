@@ -42,7 +42,7 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/product-items");
+        const res = await fetch("http://localhost:3000/api/product-items");
         if (!res.ok) throw new Error("Failed to fetch");
         const data: ProductItem[] = await res.json();
 

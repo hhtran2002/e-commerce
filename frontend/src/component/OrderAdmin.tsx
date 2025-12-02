@@ -48,7 +48,7 @@ const OrderManagement: React.FC = () => {
 
 
   const loadOrders = () => {
-    const query = `http://localhost:3001/admin/api/orders?page=${page}&limit=${limit}&search=${encodeURIComponent(searchTerm)}`;
+    const query = `http://localhost:3000/admin/api/orders?page=${page}&limit=${limit}&search=${encodeURIComponent(searchTerm)}`;
     fetch(query,{
             headers:{
               'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
@@ -76,7 +76,7 @@ const OrderManagement: React.FC = () => {
 
   const handleDelete = (id: number) => {
     if (window.confirm('Xác nhận xoá đơn hàng này?')) {
-      fetch(`http://localhost:3001/admin/api/orders/${id}`, { method: 'DELETE' })
+      fetch(`http://localhost:3000/admin/api/orders/${id}`, { method: 'DELETE' })
         .then((res) => {
           if (res.ok) loadOrders();
         })
@@ -92,7 +92,7 @@ const OrderManagement: React.FC = () => {
       return;
     }
 
-    fetch(`http://localhost:3001/api/orders/${orderToDelete}`, {
+    fetch(`http://localhost:3000/api/orders/${orderToDelete}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ const OrderManagement: React.FC = () => {
   };
 
   const updateOrderStatus = (orderId: number, newStatus: string) => {
-    fetch(`http://localhost:3001/api/orders/${orderId}/status`, {
+    fetch(`http://localhost:3000/api/orders/${orderId}/status`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
