@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "../frontend/src/page/Home";
-import Clothing from "../frontend/src/page/Clothing";
 import Swimwear from "../frontend/src/page/Swimwear";
 import Navbar from "./src/component/Navbar";
 import Accessories from "./src/page/Accessories";
 import Sale from "./src/page/Sale";
+import ClothingPage from "../frontend/src/page/Clothing";
 function App() {
   return (
     <>
@@ -15,7 +15,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
 
-        <Route path="/clothing" element={<Clothing />} />
+        {/* Clothing tổng */}
+        <Route path="/clothing" element={<ClothingPage />} />
+
+        {/* Clothing theo danh mục con */}
+        <Route path="/clothing/:category" element={<ClothingPage />} />
 
         <Route path="/swimwear" element={<Swimwear />} />
 

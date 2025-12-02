@@ -4,26 +4,21 @@ import ProductCard from "./ProductCard";
 import ShoppingCartPopup from "../component/ShoppingCartPopup";
 import { useCart } from "../context/CartContext";
 
-export type ProductItem = {
+export type Product = {
   id: number;
+  name: string;
   price: number;
-  images: {
-    image_url?: string;
+  items: {
+    id: number;
+    images: { imageUrl?: string }[];
+    size?: any;
+    color?: any;
   }[];
-  product: {
-    name: string;
-    category_id: number;
-    productPromotions?: {
-      promotion: {
-        discount_rate: number;
-        start_at: string;
-        end_at: string;
-      };
-    }[];
-  };
+  category: { id: number; name: string };
 };
 
 interface ProductListProps {
+  // Có thể truyền 0, 1 hoặc nhiều categoryId
   categoryIds: number[];
   page: number;
   limit: number;
@@ -36,113 +31,82 @@ const ProductList: React.FC<ProductListProps> = ({
   limit,
   onTotalCountChange,
 }) => {
-  const [productItems, setProductItems] = useState<ProductItem[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { cart, addToCart, updateQuantity, removeItem } = useCart();
 
   useEffect(() => {
-    if (!categoryIds || categoryIds.length === 0) {
-      console.warn("⚠️ categoryIds is empty — skipping fetch.");
-      setProductItems([]);
-      onTotalCountChange?.(0);
-      return;
-    }
+    const fetchProducts = async () => {
+      try {
+        let url = "";
 
-    const query = new URLSearchParams({
-      page: page.toString(),
-      limit: limit.toString(),
-      categoryIds: categoryIds.join(","),
-    });
+        if (!categoryIds || categoryIds.length === 0) {
+          // Không truyền category → lấy tất cả
+          url = `http://localhost:3000/api/products`;
+        } else if (categoryIds.length === 1) {
+          // 1 category
+          url = `http://localhost:3000/api/products/category/${categoryIds[0]}`;
+        } else {
+          // Nhiều category → dùng /categories?ids=1,5,6,...
+          const idsQuery = categoryIds.join(",");
+          url = `http://localhost:3000/api/products/categories?ids=${idsQuery}`;
+        }
 
-   fetch(`http://localhost:3001/api/product-items/paginated?${query.toString()}`)
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error("Failed to fetch products");
+        }
 
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch product items.");
-        return res.json();
-      })
-      .then((data) => {
-        setProductItems(data.data || []);
-        onTotalCountChange?.(data.totalCount || 0);
-      })
-      .catch((err) => console.error("Error loading product items:", err));
+        const data = await res.json();
+        setProducts(data);
+        onTotalCountChange?.(data.length);
+      } catch (err) {
+        console.error("Error loading products:", err);
+        setProducts([]);
+        onTotalCountChange?.(0);
+      }
+    };
+
+    fetchProducts();
   }, [categoryIds, page, limit, onTotalCountChange]);
 
-  const handleBuyNow = (item: ProductItem) => {
-    const image = item.images?.[0];
-    const imageUrl = image?.image_url || "/fallback.jpg";
-    let discountRate = 0;
-    let newPrice = item.price;
-    let isOnSale = false;
-
-    if (item.product && item.product.productPromotions) {
-      const now = new Date();
-      const validPromotion = item.product.productPromotions.find(
-        (pp) =>
-          pp.promotion &&
-          pp.promotion.discount_rate > 0 &&
-          new Date(pp.promotion.start_at) <= now &&
-          new Date(pp.promotion.end_at) >= now
-      );
-      if (validPromotion) {
-        discountRate = validPromotion.promotion.discount_rate;
-        newPrice = Math.round(item.price * (1 - discountRate));
-        isOnSale = true;
-      }
-    }
+  const handleBuyNow = (p: Product) => {
+    const firstItem = p.items[0];
+    const imageUrl = firstItem?.images?.[0]?.imageUrl || "/fallback.jpg";
 
     addToCart({
-      id: item.id,
-      name: item.product.name,
-      price: newPrice,
+      id: p.id,
+      name: p.name,
+      price: p.price,
       image: imageUrl,
     });
+
     setIsCartOpen(true);
   };
 
   return (
     <div className="product-list-container">
       <div className="product-container">
-        {productItems.length === 0 ? (
+        {products.length === 0 ? (
           <p className="no-product">No matching products found.</p>
         ) : (
-          productItems.map((item) => {
-            const image = item.images?.[0];
-            const imageUrl = image?.image_url || "/fallback.jpg";
-
-            // Tính toán discount
-            let discountRate = 0;
-            let newPrice = item.price;
-            let isOnSale = false;
-
-            if (item.product && item.product.productPromotions) {
-              const now = new Date();
-              const validPromotion = item.product.productPromotions.find(
-                (pp) =>
-                  pp.promotion &&
-                  pp.promotion.discount_rate > 0 &&
-                  new Date(pp.promotion.start_at) <= now &&
-                  new Date(pp.promotion.end_at) >= now
-              );
-
-              if (validPromotion) {
-                discountRate = validPromotion.promotion.discount_rate;
-                newPrice = Math.round(item.price * (1 - discountRate));
-                isOnSale = true;
-              }
-            }
+          products.map((p) => {
+            const firstItem = p.items[0];
+            const imageUrl =
+              firstItem?.images?.[0]?.imageUrl || "/fallback.jpg";
 
             return (
-              <div className="product-item" key={item.id}>
+              <div className="product-item" key={p.id}>
                 <ProductCard
                   product={{
-                    id: item.id,
-                    name: item.product.name,
+                    id: p.id,
+                    name: p.name,
                     img: imageUrl,
-                    price: item.price,
-                    discountPrice: newPrice,
-                    isOnSale: isOnSale,
+                    price: p.price,
+                    discountPrice: p.price, // sau này có sale thì cập nhật
+                    isOnSale: false,
                   }}
-                  onBuy={() => handleBuyNow(item)}
+                  onBuy={() => handleBuyNow(p)}
                 />
               </div>
             );

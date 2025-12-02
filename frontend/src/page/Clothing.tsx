@@ -6,67 +6,72 @@ import Sidebar, { FilterOptions } from "../component/Sidebar";
 import Breadcrumb from "../component/Breadcrumb";
 import "../style/CategoryPage.css";
 import Pagination from "../component/Pagination";
-// Ánh xạ tên danh mục URL sang ID
+
+// map slug URL -> id category trong DB
 const mapCategoryToId = (category: string): number | null => {
   const map: Record<string, number> = {
-    clothing: 1,
+    clothing: 1,   // category cha
     blazer: 4,
-    cardigan: 5,
-    skirt: 6,
+    bodysuit: 5,
+    bottom: 6,
     jacket: 7,
     dress: 8,
     denim: 11,
+    jumpsuit: 10,
+    knitwear: 11,
+    loungewear: 12,
     shorts: 13,
+    skirt: 14,     // nếu có id riêng thì sửa cho đúng
+    top: 15,
   };
+
   return map[category.toLowerCase()] ?? null;
 };
 
-// Danh sách các danh mục con của Clothing (parentId = 1)
-const clothingSubcategoryIds = [1,4, 5, 6, 7, 8, 11, 13];
-
+// danh sách tất cả category con của Clothing
+const clothingSubcategoryIds = [4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15];
 
 const ClothingPage: React.FC = () => {
-  const clothingCategoryIds = [1, 4, 5, 6, 7, 8, 11];
   const { category } = useParams();
   const categoryIdFromUrl = category ? mapCategoryToId(category) : null;
 
+  // nếu có slug hợp lệ -> 1 id; nếu không có slug -> toàn bộ clothing
   const categoryIdsToUse =
     categoryIdFromUrl !== null ? [categoryIdFromUrl] : clothingSubcategoryIds;
 
-
-  // Pagination state
+  // Pagination
   const [page, setPage] = useState(1);
   const limit = 12;
   const [totalCount, setTotalCount] = useState(0);
 
-  // Filter state
+  // Filter
   const [filters, setFilters] = useState<FilterOptions>({});
   const [isFiltering, setIsFiltering] = useState(false);
 
   const handleFilterChange = (newFilters: FilterOptions) => {
     setFilters(newFilters);
     setIsFiltering(true);
-    setPage(1); // reset to first page when filters change
+    setPage(1);
   };
 
   const handleClearFilters = () => {
     setFilters({});
     setIsFiltering(false);
-    setPage(1); // reset to first page
+    setPage(1);
   };
 
-  // Compute total pages
   const totalPages = Math.ceil(totalCount / limit);
-  // Reset bộ lọc mỗi khi URL category thay đổi
+
   useEffect(() => {
+    // đổi slug -> reset filter
     setFilters({});
     setIsFiltering(false);
   }, [category]);
 
-  // Nếu URL sai danh mục (không khớp trong map)
+  // slug không nằm trong map -> báo lỗi, KHÔNG gọi ProductList
   if (category && categoryIdFromUrl === null) {
     return (
-      <main className="clothing-page">
+      <main className="category-page clothing-page">
         <Breadcrumb title="Clothing" />
         <p style={{ padding: 24 }}>No matching categories found.</p>
       </main>
@@ -74,8 +79,9 @@ const ClothingPage: React.FC = () => {
   }
 
   return (
-    <main className="clothing-page">
+    <main className="category-page clothing-page">
       <Breadcrumb title="Clothing" />
+
       <div className="content-container">
         <Sidebar
           onFilterChange={handleFilterChange}
@@ -84,31 +90,30 @@ const ClothingPage: React.FC = () => {
 
         <div className="right-content">
           {isFiltering && (
-            <div style={{ marginBottom: 16, textAlign: "right" }}>
+            <div className="filter-bar">
               <button className="filter-btn" onClick={handleClearFilters}>
                 Delete Filter
               </button>
             </div>
           )}
 
-          <div className="clothing-wrapper">
+          <div className="category-products-wrapper">
             {isFiltering ? (
               <FilteredProductList
                 filters={filters}
                 parentCategoryId={1}
-                allowedSubcategoryIds={[1,4, 5, 6, 7, 8, 11]}
+                allowedSubcategoryIds={clothingSubcategoryIds}
                 page={page}
                 limit={limit}
                 onTotalCountChange={setTotalCount}
               />
             ) : (
-             <ProductList
-  categoryIds={categoryIdsToUse} 
-  page={page}
-  limit={limit}
-  onTotalCountChange={setTotalCount}
-/>
-
+              <ProductList
+                categoryIds={categoryIdsToUse}
+                page={page}
+                limit={limit}
+                onTotalCountChange={setTotalCount}
+              />
             )}
           </div>
 
