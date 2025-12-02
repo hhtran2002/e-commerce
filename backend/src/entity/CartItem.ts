@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Cart } from "./Cart";
 import { Product } from "./Product";
+import { ProductItem } from "./ProductItem";
 
 @Entity({ name: "cart_items" })
 export class CartItem {
@@ -15,6 +16,9 @@ export class CartItem {
 
   @ManyToOne(() => Product, { nullable: false })
   product!: Product;
+
+  @ManyToOne(() => ProductItem, { nullable: false })
+  productItem!: ProductItem;
 
   @Column({ type: "decimal", precision: 10, scale: 2 })
   priceAt!: string;
