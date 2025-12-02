@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { User, UserInput } from '../type/User';
 import UserForm from '../component/UserForm';
 import UserTable from '../component/UserTable';
-import '../styles/UserAdmin.css';
+import '../style/UserAdmin.css';
 // import Pagination from '../components/Pagination';
 import { FaArrowLeft } from 'react-icons/fa';
 

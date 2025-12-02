@@ -22,10 +22,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
 
-        {/* Clothing tổng */}
         <Route path="/clothing" element={<ClothingPage />} />
 
-        {/* Clothing theo danh mục con */}
         <Route path="/clothing/:category" element={<ClothingPage />} />
 
         <Route path="/swimwear" element={<Swimwear />} />
@@ -34,7 +32,6 @@ function App() {
 
         <Route path="/sale" element={<Sale />} />
 
-        {/* Trang chi tiết sản phẩm */}
         <Route path="/product/:productId" element={<ItemPage />} />
 
         {/* ==== SITE ADMIN ==== */}
