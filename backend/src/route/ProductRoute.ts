@@ -17,4 +17,7 @@ router.get("/categories", (req, res) =>
   productController.getByCategories(req, res)
 );
 
+// GET /api/products/:id  (chi tiết 1 product)
+router.get("/:id", (req, res) => productController.getById(req, res));
+
 export default router;

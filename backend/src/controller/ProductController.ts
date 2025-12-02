@@ -52,4 +52,23 @@ export class ProductController {
       return res.status(500).json({ message: "Internal server error" });
     }
   }
+
+  // GET /api/products/:id
+  async getById(req: Request, res: Response) {
+    const id = Number(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "id must be a number" });
+    }
+
+    try {
+      const product = await productService.getProductById(id);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+      return res.json(product);
+    } catch (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
 }

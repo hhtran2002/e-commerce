@@ -99,11 +99,11 @@ const ProductList: React.FC<ProductListProps> = ({
               <div className="product-item" key={p.id}>
                 <ProductCard
                   product={{
-                    id: p.id,
+                    id: p.id,              // ID của bảng products
                     name: p.name,
                     img: imageUrl,
                     price: p.price,
-                    discountPrice: p.price, // sau này có sale thì cập nhật
+                    discountPrice: p.price,
                     isOnSale: false,
                   }}
                   onBuy={() => handleBuyNow(p)}

@@ -5,6 +5,8 @@ import Navbar from "./src/component/Navbar";
 import Accessories from "./src/page/Accessories";
 import Sale from "./src/page/Sale";
 import ClothingPage from "../frontend/src/page/Clothing";
+import ItemPage from "./src/page/ItemPage";
+
 function App() {
   return (
     <>
@@ -26,6 +28,9 @@ function App() {
         <Route path="/accessories" element={<Accessories />} />
 
         <Route path="/sale" element={<Sale />} />
+
+        {/* Trang chi tiết sản phẩm */}
+        <Route path="/product/:productId" element={<ItemPage />} />
 
       </Routes>
     </>

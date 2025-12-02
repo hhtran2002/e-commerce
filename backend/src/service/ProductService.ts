@@ -31,4 +31,12 @@ export class ProductService {
       relations: ["category", "items.images", "items.size", "items.color"],
     });
   }
+
+  async getProductById(id: number) {
+    return this.productRepo.findOne({
+      where: { id },
+      relations: ["category", "items.images", "items.size", "items.color"],
+    });
+  }
+  
 }
