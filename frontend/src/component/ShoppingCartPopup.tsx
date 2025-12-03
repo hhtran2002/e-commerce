@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/ShoppingCartPopup.css";
+import "../style/ShoppingCartPopup.css";
 import { CartItem, useCart } from "../context/CartContext";
 type ProductItem = {
   id: number;

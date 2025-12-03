@@ -206,3 +206,10 @@ header {
     width: 70%;
   }
 }
+
+.navbar-logo {
+  height: 70px;    /* chỉnh độ cao logo ở đây */
+  width: auto;     /* tự giữ tỉ lệ, không bị méo */
+  object-fit: contain;
+  display: block;
+}

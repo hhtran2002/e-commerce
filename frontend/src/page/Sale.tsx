@@ -21,7 +21,7 @@ const mapCategoryToId = (category: string): number | null => {
 // Tùy bạn muốn Sale bao gồm những category nào
 const saleAllCategoryIds = [1, 4, 5, 6, 7, 8, 11, 9, 10, 20, 21, 22, 23];
 
-const SalePage: React.FC = () => {
+const Sale: React.FC = () => {
   const { category } = useParams();
   const categoryIdFromUrl = category ? mapCategoryToId(category) : null;
 
@@ -118,4 +118,4 @@ const SalePage: React.FC = () => {
   );
 };
 
-export default SalePage;
+export default Sale;

@@ -31,7 +31,7 @@ const OrderList: React.FC<{ userId: number }> = ({ userId }) => {
     useEffect(() => {
         // const token = sessionStorage.getItem("token");
 
-        fetch(`http://localhost:3001/api/orders/user/${userId}`, {
+        fetch(`http://localhost:3000/api/orders/user/${userId}`, {
             headers: {
                 'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
             },
@@ -56,7 +56,7 @@ const OrderList: React.FC<{ userId: number }> = ({ userId }) => {
 
     const handleCancel = async (orderId: number) => {
         try {
-            const res = await fetch(`http://localhost:3001/api/orders/${orderId}/cancel`, {
+            const res = await fetch(`http://localhost:3000/api/orders/${orderId}/cancel`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,

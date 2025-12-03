@@ -15,10 +15,17 @@
     "skipLibCheck": true,
     "sourceMap": true,
 
-    // Giữ nếu bạn thích:
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true
   },
   "include": ["**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
+  "ts-node": {
+    "transpileOnly": true,
+    "esm": false,
+    "experimentalEsm": false,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }

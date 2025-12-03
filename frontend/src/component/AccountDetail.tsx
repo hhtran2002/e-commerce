@@ -39,7 +39,7 @@ const AccountDetails: React.FC = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3001/api/users/changeInfo", {
+      const response = await fetch("http://localhost:3000/api/users/changeInfo", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

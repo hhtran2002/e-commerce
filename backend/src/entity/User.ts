@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn,
-  ManyToOne, OneToMany
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  JoinColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  OneToMany,
 } from "typeorm";
 import { Role } from "./Role";
 import { UserAddress } from "./UserAddress";
@@ -30,21 +37,27 @@ export class User {
   @Column({ length: 255 })
   fullName!: string;
 
+  @Column({ length: 255, nullable: true })
+  keycloakId?: string;
+
+  @Column({ nullable: true, type: "varchar", length: 255 })
+  resetToken?: string | null;
+
+  @Column({ type: "datetime2", nullable: true })
+  resetTokenExpiry?: Date | null;
+
   @ManyToOne(() => Role, (r) => r.users, { nullable: false })
   role!: Role;
 
-  // Địa chỉ mặc định của user (nếu có)
   @ManyToOne(() => UserAddress, { nullable: true })
-  defaultAddress?: UserAddress;
+  @JoinColumn({ name: "addressId" }) // tạo cột addressId trong users
+  address?: UserAddress;
 
   @CreateDateColumn()
   createdAt!: Date;
 
   @UpdateDateColumn({ nullable: true })
   updateAt?: Date;
-
-  @OneToMany(() => UserAddress, (addr) => addr.user)
-  addresses!: UserAddress[];
 
   @OneToMany(() => Order, (o) => o.user)
   orders!: Order[];

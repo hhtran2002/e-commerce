@@ -19,7 +19,7 @@ const ENV = {
   DBNAME: mustGet("DB_NAME"),
   ENCRYPT: (process.env.DB_ENCRYPT ?? "false") === "true",
   TRUST_CERT: (process.env.DB_TRUST_SERVER_CERTIFICATE ?? "true") === "true",
-  // INSTANCE_NAME: process.env.INSTANCE_NAME, // nếu dùng SQLEXPRESS
+  INSTANCE_NAME: process.env.INSTANCE_NAME,
 };
 
 // === import entities của bạn ===
@@ -47,17 +47,35 @@ import { AILog } from "../entity/CBAILog"; // đổi theo tên file thật
 
 export const AppDataSource = new DataSource({
   type: "mssql",
-  host: ENV.HOST,                // đã là string, không còn undefined
+  host: ENV.HOST, // đã là string, không còn undefined
   port: ENV.PORT,
   username: ENV.USERNAME,
   password: ENV.PASSWORD,
   database: ENV.DBNAME,
-  synchronize: true,             // dev thôi, prod dùng migration
+  synchronize: false, // disabled to avoid altering existing schema automatically
   logging: false,
   entities: [
-    User, Role, UserAddress, Category, Color, Image, Size, Product, ProductItem,
-    Cart, CartItem, Order, OrderItem, Payment, Promotion, ShippingMethod,
-    Review, Conversation, Message, FAQ, AILog,
+    User,
+    Role,
+    UserAddress,
+    Category,
+    Color,
+    Image,
+    Size,
+    Product,
+    ProductItem,
+    Cart,
+    CartItem,
+    Order,
+    OrderItem,
+    Payment,
+    Promotion,
+    ShippingMethod,
+    Review,
+    Conversation,
+    Message,
+    FAQ,
+    AILog,
   ],
   migrations: [],
   subscribers: [],

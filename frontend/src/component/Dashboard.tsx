@@ -18,22 +18,22 @@ const AdminDashboard: React.FC = () => {
       setLoading(true);
       try {
         const [catRes, prodRes, orderRes, userRes] = await Promise.all([
-          fetch("http://localhost:3001/api/categories", {
+          fetch("http://localhost:3000/api/categories", {
             headers: {
               Authorization: "Bearer " + (sessionStorage.getItem("token") || ""),
             },
           }),
-          fetch("http://localhost:3001/api/products", {
+          fetch("http://localhost:3000/api/products", {
             headers: {
               Authorization: "Bearer " + (sessionStorage.getItem("token") || ""),
             },
           }),
-          fetch("http://localhost:3001/api/orders/count", {
+          fetch("http://localhost:3000/api/orders/count", {
             headers: {
               Authorization: "Bearer " + (sessionStorage.getItem("token") || ""),
             },
           }),
-          fetch("http://localhost:3001/api/users/count", {
+          fetch("http://localhost:3000/api/users/count", {
             headers: {
               Authorization: "Bearer " + (sessionStorage.getItem("token") || ""),
             },
@@ -74,11 +74,11 @@ const AdminDashboard: React.FC = () => {
     const fetchOrderStats = async () => {
       try {
         const [prodRes, orderRes] = await Promise.all([
-          fetch(`http://localhost:3001/api/statistics/products?type=${type}&date=${date}`,{
+          fetch(`http://localhost:3000/api/statistics/products?type=${type}&date=${date}`,{
 
             headers:{"Authorization": 'Bearer ' + sessionStorage.getItem('token') || ''}
           }),
-          fetch(`http://localhost:3001/api/statistics/orders?type=${type}&date=${date}`,
+          fetch(`http://localhost:3000/api/statistics/orders?type=${type}&date=${date}`,
               {
                 headers:{"Authorization": 'Bearer ' + sessionStorage.getItem('token') || ''}
           }),

@@ -15,7 +15,7 @@ const AddressList: React.FC<{ userId: number }> = ({ userId }) => {
 
   const fetchAddresses = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/addresses/${userId}`, {
+      const res = await fetch(`http://localhost:3000/api/addresses/${userId}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
         },
@@ -35,7 +35,7 @@ const AddressList: React.FC<{ userId: number }> = ({ userId }) => {
   const handleDelete = async (addressId: number) => {
     try {
       console.log("handleDelete", userId, addressId);
-      const res = await fetch(`http://localhost:3001/api/addresses/${addressId}`, {
+      const res = await fetch(`http://localhost:3000/api/addresses/${addressId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +63,7 @@ const AddressList: React.FC<{ userId: number }> = ({ userId }) => {
     if (!editingAddress) return;
 
     try {
-      await fetch(`http://localhost:3001/api/addresses/${editingAddress.id}`, {
+      await fetch(`http://localhost:3000/api/addresses/${editingAddress.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

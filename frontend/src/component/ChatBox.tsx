@@ -40,7 +40,7 @@ const ChatWidget: React.FC = () => {
 
     try {
       // Gửi lên backend gọi AI
-      const res = await fetch("http://localhost:3001/api/chat", {
+      const res = await fetch("http://localhost:3000/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: trimmed }),

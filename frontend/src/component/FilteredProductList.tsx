@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/FilteredProductList.css";
+import "../style/FilteredProductList.css";
 import ProductCard from "./ProductCard";
 import ShoppingCartPopup from "../component/ShoppingCartPopup";
 import { useCart } from "../context/CartContext";
@@ -42,7 +42,7 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/product-items");
+        const res = await fetch("http://localhost:3000/api/product-items");
         if (!res.ok) throw new Error("Failed to fetch");
         const data: ProductItem[] = await res.json();
 

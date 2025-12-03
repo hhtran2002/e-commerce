@@ -1,90 +1,113 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import '../styles/ProductItem.css';
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import "../style/ProductItem.css";
 
 const ProductItem: React.FC = () => {
-  const { productId } = useParams();
+  const { productId } = useParams<{ productId: string }>();
   const [product, setProduct] = useState<any>(null);
   const [quantity, setQuantity] = useState(1);
   const [currentImage, setCurrentImage] = useState(0);
-  const [relatedPage, setRelatedPage] = useState(0);
-  const [activeTab, setActiveTab] = useState('description');
+  const [activeTab, setActiveTab] = useState<"description" | "additional" | "reviews">("description");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!productId) return;
 
-    fetch(`http://localhost:3001/api/product-items/${productId}`)
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to fetch product details');
-        return res.json();
-      })
-      .then((data) => {
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/api/products/${productId}`);
+        if (!res.ok) throw new Error("Failed to fetch product details");
+        const data = await res.json();
         setProduct(data);
+      } catch (err) {
+        console.error("❌ Error fetching product:", err);
+        setProduct(null);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error('❌ Error fetching product:', err);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchProduct();
   }, [productId]);
 
   if (loading) return <p>Loading...</p>;
   if (!product) return <p>Product not found.</p>;
 
+  // Lấy item đầu tiên để hiển thị chi tiết (size, color, images...)
+  const firstItem = product.items?.[0];
+
+  const images = firstItem?.images || [];
+
   const imageUrl = (img: any) =>
-    img?.cloudinary_url || img?.image_url || '/fallback.jpg';
+    img?.cloudinary_url || img?.imageUrl || img?.image_url || "/fallback.jpg";
 
   return (
     <div className="product-page">
       <div className="product-main">
+        {/* LEFT: Hình ảnh */}
         <div className="product-images">
           <div className="thumbnail-gallery">
-            {product.images?.map((img: any, index: number) => (
+            {images.map((img: any, index: number) => (
               <img
                 key={index}
                 src={imageUrl(img)}
                 alt={`Thumbnail ${index + 1}`}
-                className={`thumbnail ${currentImage === index ? 'active' : ''}`}
+                className={`thumbnail ${currentImage === index ? "active" : ""}`}
                 onClick={() => setCurrentImage(index)}
               />
             ))}
           </div>
           <div className="main-image">
-            <img
-              src={imageUrl(product.images?.[currentImage])}
-              alt="Product"
-            />
+            <img src={imageUrl(images[currentImage])} alt="Product" />
           </div>
         </div>
 
+        {/* RIGHT: Thông tin sản phẩm */}
         <div className="product-details">
           <div className="breadcrumb">
-            <Link to="/">Home</Link> {product.id}
+            <Link to="/">Home</Link> &nbsp;/&nbsp;
+            <span>{product.category?.name || "Category"}</span>
           </div>
-          <h1>{product.product?.name || `Product #${product.id}`}</h1>
-          <p className="price">{product.price?.toFixed(2)}₫</p>
+
+          <h1>{product.name || `Product #${product.id}`}</h1>
+
+          <p className="price">
+            {product.price?.toLocaleString
+              ? product.price.toLocaleString()
+              : product.price}
+            ₫
+          </p>
+
           <p className="description">
-            Color: {product.color?.name || 'N/A'} — Quantity available: {product.quantity}
+            Color: {firstItem?.color?.name || "N/A"} — Quantity available:{" "}
+            {firstItem?.quantity ?? "N/A"}
           </p>
 
           <div className="color-selection">
             <span>Color: </span>
             <div
               className="color-circle"
-              style={{ backgroundColor: product.color?.color_code || '#ccc' }}
+              style={{
+                backgroundColor: firstItem?.color?.color_code || "#ccc",
+              }}
             ></div>
           </div>
 
-          {product.size && (
+          {firstItem?.size && (
             <div className="size-selection">
               <span>Size: </span>
-              <button className="size-button">{product.size}</button>
+              <button className="size-button">
+                {firstItem.size.name || firstItem.size || "N/A"}
+              </button>
             </div>
           )}
 
           <div className="quantity-selection">
-            <button onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}>-</button>
+            <button
+              onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
+            >
+              -
+            </button>
             <span>{quantity}</span>
             <button onClick={() => setQuantity(quantity + 1)}>+</button>
           </div>
@@ -96,58 +119,61 @@ const ProductItem: React.FC = () => {
 
           <div className="product-meta">
             <p>SKU: N/A</p>
-            <p>Category ID: {product.product?.category_id || 'N/A'}</p>
+            <p>Category: {product.category?.name || "N/A"}</p>
           </div>
         </div>
       </div>
 
+      {/* TABS */}
       <div className="tabs">
         <button
-          className={`tab ${activeTab === 'description' ? 'active' : ''}`}
-          onClick={() => setActiveTab('description')}
+          className={`tab ${activeTab === "description" ? "active" : ""}`}
+          onClick={() => setActiveTab("description")}
         >
           DESCRIPTION
         </button>
         <button
-          className={`tab ${activeTab === 'additional' ? 'active' : ''}`}
-          onClick={() => setActiveTab('additional')}
+          className={`tab ${activeTab === "additional" ? "active" : ""}`}
+          onClick={() => setActiveTab("additional")}
         >
           ADDITIONAL INFORMATION
         </button>
         <button
-          className={`tab ${activeTab === 'reviews' ? 'active' : ''}`}
-          onClick={() => setActiveTab('reviews')}
+          className={`tab ${activeTab === "reviews" ? "active" : ""}`}
+          onClick={() => setActiveTab("reviews")}
         >
           REVIEWS (0)
         </button>
       </div>
 
-      {activeTab === 'description' && (
+      {activeTab === "description" && (
         <div className="tab-content">
           <p>Thông tin mô tả sản phẩm sẽ được hiển thị ở đây.</p>
         </div>
       )}
-      {activeTab === 'additional' && (
+
+      {activeTab === "additional" && (
         <div className="tab-content">
           <table>
             <tbody>
               <tr>
                 <td>Color</td>
-                <td>{product.color?.name || 'N/A'}</td>
+                <td>{firstItem?.color?.name || "N/A"}</td>
               </tr>
               <tr>
                 <td>Size</td>
-                <td>{product.size || 'N/A'}</td>
+                <td>{firstItem?.size?.name || firstItem?.size || "N/A"}</td>
               </tr>
               <tr>
                 <td>Quantity</td>
-                <td>{product.quantity}</td>
+                <td>{firstItem?.quantity ?? "N/A"}</td>
               </tr>
             </tbody>
           </table>
         </div>
       )}
-      {activeTab === 'reviews' && (
+
+      {activeTab === "reviews" && (
         <div className="tab-content">
           <p>No reviews yet.</p>
         </div>

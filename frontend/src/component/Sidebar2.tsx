@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../styles/Sidebar2.css";
+import "../style/Sidebar2.css";
 
 const Sidebar2 = () => {
-  function handleLogout(event: React.MouseEvent<HTMLLIElement, MouseEvent>): void {
+  function handleLogout(
+    event: React.MouseEvent<HTMLLIElement, MouseEvent>
+  ): void {
     throw new Error("Function not implemented.");
   }
 

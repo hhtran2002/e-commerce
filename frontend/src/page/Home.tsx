@@ -15,16 +15,15 @@ const mockProducts: Product[] = [
 export default function Home() {
     return (
         <>
-            <Navbar onCartClick={() => {}} />
 
             {/* Nội dung trang Home */}
             <div style={{ minHeight: "80vh" }}>
                 <Slide />
             </div>
 
-             <NewArrivals products={mockProducts} />
+             {/* <NewArrivals products={mockProducts} />
 
-             <Categories />
+             <Categories /> */}
 
             <Footer />
         </>
