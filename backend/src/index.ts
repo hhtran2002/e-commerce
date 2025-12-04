@@ -3,6 +3,7 @@ import cors from "cors";
 import { AppDataSource } from "./config/data_source";
 import productRoutes from "./route/ProductRoute";
 import passwordRoutes from "./route/passwordRoute";
+import authRoutes from "./route/AuthRoute";
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.use("/api/products", productRoutes);
 app.use("/api/password", passwordRoutes);
+app.use("/api/auth", authRoutes);
 
 AppDataSource.initialize()
   .then(() => {

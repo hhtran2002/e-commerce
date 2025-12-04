@@ -1,18 +1,20 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "../frontend/src/page/Home";
-import Swimwear from "../frontend/src/page/Swimwear";
+import Home from "./src/pages/Home";
+import Swimwear from "./src/pages/Swimwear";
 import Navbar from "./src/component/Navbar";
-import Accessories from "./src/page/Accessories";
-import Sale from "./src/page/Sale";
-import ClothingPage from "../frontend/src/page/Clothing";
-import ItemPage from "./src/page/ItemPage";
+import Accessories from "./src/pages/Accessories";
+import Sale from "./src/pages/Sale";
+import ClothingPage from "./src/pages/Clothing";
+import ItemPage from "./src/pages/ItemPage";
 import OrderManagement from "./src/component/OrderAdmin";
 import UserManagement from "./src/component/UserAdmin";
 import ProductManagement from "./src/component/ProductAdmin";
 import AdminDashboard from "./src/component/Dashboard";
-import Admin from "./src/page/Admin";
+import Admin from "./src/pages/Admin";
 import ForgotPassword from "./src/component/ForgotPassword";
 import ResetPassword from "./src/component/ResetPassword";
+import LoginSection from "./src/pages/Login";
+import RegisterSection from "./src/pages/Register";
 
 function App() {
   return (
@@ -23,6 +25,12 @@ function App() {
       {/* Các route của app */}
       <Routes>
         <Route path="/" element={<Home />} />
+
+        {/* Route sử dụng cho đăng nhập và đăng ký */}
+        {/* --- THÊM 2 DÒNG NÀY --- */}
+        <Route path="/login" element={<LoginSection />} />
+        <Route path="/register" element={<RegisterSection />} />
+        {/* ----------------------- */}
 
         {/* Clothing tổng */}
         <Route path="/clothing" element={<ClothingPage />} />

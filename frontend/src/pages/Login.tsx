@@ -1,48 +1,42 @@
 import React, { useState } from 'react';
-
 import { Link, useNavigate } from 'react-router-dom';
+import authApi from '../api/authApi';
 import '../style/Login.css';
 
 const LoginSection: React.FC = () => {
-  const [username, setUsername] = useState('');
+  //const [username, setUsername] = useState('');
+  const [email, setEmail] = useState(''); // Sử dụng email thay vì username
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
+      // Gọi API qua axios
+      const res: any = await authApi.login({
+        email: email,
+        password: password
       });
 
-      const data = await res.json();
+      // Backend trả về: { message, token, user }
+      // Lưu token vào LocalStorage (Bền vững hơn SessionStorage)
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('userInfo', JSON.stringify(res.user));
 
-      if (res.ok) {
-        sessionStorage.setItem('token', data.accessToken);
-        sessionStorage.setItem('userInfo', JSON.stringify(data.user));
-        navigate('/');
-      } else {
-        alert(data.message || 'Incorrect username or password');
-      }
-    } catch (error) {
-      alert('Failed to connect to the server');
-      console.error(error);
-
+      alert('Login Successful!');
+      navigate('/'); // Chuyển về trang chủ
+      
+    } catch (error: any) {
+      console.error("Login Error:", error);
+      // Lấy thông báo lỗi từ Backend trả về
+      const message = error.response?.data?.message || 'Login failed';
+      alert(message);
     }
   };
 
   return (
     <div className="login-section">
       <h2>LOGIN</h2>
-      <p>
-        Login for this site allows you to access your order status and
-        history. Just fill in the fields below, and we'll get a new account
-        set up for you in no time. We will only ask you for information
-        necessary to make the purchase process faster and easier.
-      </p>
+      <p>Please login using your account details.</p>
 
       <form
         className="login-form"
@@ -51,15 +45,16 @@ const LoginSection: React.FC = () => {
           handleLogin();
         }}
       >
+        {/* Sửa Username thành Email để khớp Backend */}
         <div className="input-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="email">Email Address</label>
           <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
-            placeholder="Enter your username"
+            placeholder="Enter your email"
           />
         </div>
 
@@ -80,13 +75,12 @@ const LoginSection: React.FC = () => {
         </button>
 
         <p style={{ color: 'black' }}>
-          If you don't have an account, <Link to="/signup">register here</Link>
+          Don't have an account? <Link to="/register">Register here</Link>
         </p>
 
         <div className="forgot-password">
           <Link to="/forgot-password">Forgot your password?</Link>
         </div>
-
       </form>
     </div>
   );
