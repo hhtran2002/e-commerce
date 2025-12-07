@@ -1,21 +1,21 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./src/pages/Home";
-import Swimwear from "./src/pages/Swimwear";
+import Home from "./src/page/Home";
+import Swimwear from "./src/page/Swimwear";
 import Navbar from "./src/component/Navbar";
-import Accessories from "./src/pages/Accessories";
-import Sale from "./src/pages/Sale";
-import ClothingPage from "./src/pages/Clothing";
-import ItemPage from "./src/pages/ItemPage";
+import Accessories from "./src/page/Accessories";
+import Sale from "./src/page/Sale";
+import ClothingPage from "./src/page/Clothing";
+import ItemPage from "./src/page/ItemPage";
 import OrderManagement from "./src/component/OrderAdmin";
 import UserManagement from "./src/component/UserAdmin";
 import ProductManagement from "./src/component/ProductAdmin";
 import AdminDashboard from "./src/component/Dashboard";
-import Admin from "./src/pages/Admin";
+import Admin from "./src/page/Admin";
 import ForgotPassword from "./src/component/ForgotPassword";
 import ResetPassword from "./src/component/ResetPassword";
-import LoginSection from "./src/pages/Login";
-import RegisterSection from "./src/pages/Register";
-import ShoppingCart from "./src/pages/ShoppingCart";
+import LoginSection from "./src/page/Login";
+import RegisterSection from "./src/page/Register";
+import ShoppingCart from "./src/page/ShoppingCart";
 import Checkout from "./src/page/Checkout";
 
 function App() {

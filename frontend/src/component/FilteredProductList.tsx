@@ -6,12 +6,13 @@ import { useCart } from "../context/CartContext";
 import { FilterOptions } from "./Sidebar";
 
 export type ProductItem = {
-  id: number;
+  id: number; // id của product_item
   price: number;
   size?: string;
   color?: { name: string };
   images: { image_url?: string }[];
   product: {
+    id: number; // ✅ id của product
     name: string;
     category_id: number;
     productPromotions?: any[];
@@ -97,9 +98,11 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
   const handleBuyNow = (item: ProductItem) => {
     const image = item.images?.[0];
     const imageUrl = image?.image_url || "/fallback.jpg";
+
     let discountRate = 0;
     let newPrice = item.price;
     let isOnSale = false;
+
     if (item.product && item.product.productPromotions) {
       const now = new Date();
       const validPromotion = item.product.productPromotions.find(
@@ -115,12 +118,15 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
         isOnSale = true;
       }
     }
+
+    // ✅ dùng product.id làm id cho cart
     addToCart({
-      id: item.id,
+      id: item.product.id,
       name: item.product.name,
       price: newPrice,
       image: imageUrl,
     });
+
     setIsCartOpen(true);
   };
 
@@ -134,7 +140,6 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
             const image = item.images?.[0];
             const imageUrl = image?.image_url || "/fallback.jpg";
 
-            // Tính toán discount
             let discountRate = 0;
             let newPrice = item.price;
             let isOnSale = false;
@@ -160,12 +165,12 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
               <div className="product-item" key={item.id}>
                 <ProductCard
                   product={{
-                    id: item.id,
+                    id: item.product.id, // ✅ dùng product.id cho trang /product/:id
                     name: item.product.name,
                     img: imageUrl,
-                    price: item.price,
-                    discountPrice: newPrice,
-                    isOnSale: isOnSale,
+                    price: newPrice,
+                    discountPrice: isOnSale ? item.price : undefined,
+                    isOnSale,
                   }}
                   onBuy={() => handleBuyNow(item)}
                 />

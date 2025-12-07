@@ -18,19 +18,30 @@ type CartContextType = {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  const addToCart = (item: Omit<CartItem, "quantity">, quantity: number = 1) => {
+  const addToCart = (
+    item: Omit<CartItem, "quantity">,
+    quantity: number = 1
+  ) => {
     setCart((prev) => {
       const exist = prev.find((p) => p.id === item.id);
       if (exist) {
+        // ✅ cập nhật cả thông tin sản phẩm + cộng dồn quantity
         return prev.map((p) =>
           p.id === item.id
-            ? { ...p, quantity: p.quantity + quantity }
+            ? {
+                ...p,
+                ...item, // name, price, image lấy theo item mới
+                quantity: p.quantity + quantity,
+              }
             : p
         );
       }
+      // sản phẩm mới
       return [...prev, { ...item, quantity }];
     });
   };

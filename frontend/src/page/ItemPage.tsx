@@ -1,8 +1,8 @@
 import React from 'react';
 import ProductItem from '../component/ProductItem';
 import '../style/ProductItem.css';
-import RelatedProduct from '../component/RelatedProduct'; 
-import '../style/RelatedProduct.css'; 
+import RelatedProduct from '../component/RelatedProduct'; // Ensure this is a React component
+import '../style/RelatedProduct.css'; // Import your CSS file for styling
 
 const ItemPage: React.FC = () => {
   return (

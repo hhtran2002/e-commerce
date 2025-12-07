@@ -9,7 +9,7 @@ const Checkout: React.FC = () => {
   const navigate = useNavigate();
 
   const [fullName, setFullName] = useState("");
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(""); // dùng cho input, gửi lên dưới tên shippingAddress
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +18,7 @@ const Checkout: React.FC = () => {
     0
   );
   const shipping = 0;
-  const total = subtotal + shipping; // chỉ dùng để hiển thị FE
+  const total = subtotal + shipping;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,34 +36,51 @@ const Checkout: React.FC = () => {
     try {
       setLoading(true);
 
+      const body = {
+        userId: 1, // tạm thời, nếu backend cần userId
+        fullName,
+        shippingAddress: address, // 🔥 backend yêu cầu shippingAddress
+        phone,
+        subtotal,
+        shipping,
+        total,
+        items: cart.map((item) => ({
+          productId: item.id,
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+      };
+
       const res = await fetch("http://localhost:3000/api/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Authorization có cũng được, backend hiện chưa dùng thì bỏ cũng không sao
           Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
         },
-        body: JSON.stringify({
-          userId: 1,                 // 🚩 tạm thời dùng user có id = 1 trong DB
-          shippingAddress: address,  // khớp với Order.shippingAddress
-          items: cart.map((item) => ({
-            quantity: item.quantity,
-            price: item.price,
-          })),
-        }),
+        body: JSON.stringify(body),
       });
 
       if (!res.ok) {
-        const errText = await res.text();
-        console.error("❌ Tạo đơn thất bại:", errText);
-        alert("Tạo đơn hàng thất bại. Kiểm tra log backend.");
+        let errMessage = "Tạo đơn hàng thất bại. Kiểm tra log backend.";
+        try {
+          const errData = await res.json();
+          console.error("❌ Tạo đơn thất bại:", errData);
+          if (errData?.message) {
+            errMessage = `Tạo đơn hàng thất bại: ${errData.message}`;
+          }
+        } catch (parseErr) {
+          const errText = await res.text();
+          console.error("❌ Tạo đơn thất bại (text):", errText);
+        }
+        alert(errMessage);
         return;
       }
 
       const data = await res.json();
       console.log("✅ Order created:", data);
 
-      alert("Đặt hàng thành công! Mã đơn: " + (data.id || ""));
+      alert("Đặt hàng thành công! " + (data.id ? `Mã đơn: ${data.id}` : ""));
       clearCart();
       navigate("/");
     } catch (error) {
