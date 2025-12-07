@@ -1,75 +1,88 @@
-import React, { useState } from "react";
+import React from "react";
 import "../style/ShoppingCart.css";
 import Breadcrumb from "../component/Breadcrumb";
-// import Sidebar from "../component/Sidebar";
 import CartItem from "../component/CartItem";
 import CartSummary from "../component/CartSummary";
-
-interface CartProduct {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import { useCart } from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const ShoppingCart: React.FC = () => {
-  const [cart, setCart] = useState<CartProduct[]>([
-    {
-      id: 1,
-      name: "Amorino Crop Top - Green, XS",
-      price: 415.0,
-      quantity: 1,
-      image: "https://stitched-lb.com/wp-content/uploads/2023/07/641dd35dbafb9-533x800.jpg",
-    },
-  ]);
+  const { cart, updateQuantity, removeItem } = useCart();
+  const navigate = useNavigate();
 
-  const updateQuantity = (id: number, quantity: number) => {
-    if (quantity < 1) return;
-    setCart(cart.map((item) => (item.id === id ? { ...item, quantity } : item)));
+  const subtotal = cart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+  const shipping = 0; // tạm thời cho 0, sau này bạn có thể tính phí ship riêng
+
+  const handleCheckout = () => {
+    navigate("/checkout");
   };
 
-  const removeItem = (id: number) => {
-    setCart(cart.filter((item) => item.id !== id));
-  };
-
-  const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const shipping = 15.0;
+  // Nếu giỏ hàng trống
+  if (cart.length === 0) {
+    return (
+      <main className="shopping-cart-page">
+        <Breadcrumb title="SHOPPING CART" />
+        <div className="content-container">
+          <div className="cart-container empty-cart">
+            <h2>Your cart is currently empty.</h2>
+            <button className="return-shop-btn" onClick={() => navigate("/")}>
+              RETURN TO SHOP
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="shopping-cart-page">
       <Breadcrumb title="SHOPPING CART" />
       <div className="content-container">
         <div className="cart-container">
-  {/* Danh sách sản phẩm trong giỏ hàng */}
-  <div className="cart-items">
-    <table className="cart-table">
-      <thead>
-        <tr>
-          <th>Product</th>
-          <th>Price</th>
-          <th>Quantity</th>
-          <th>Subtotal</th>
-        </tr>
-      </thead>
-      <tbody>
-        {cart.map((item) => (
-          <CartItem key={item.id} product={item} onUpdateQuantity={updateQuantity} onRemove={removeItem} />
-        ))}
-      </tbody>
-    </table>
+          {/* Danh sách sản phẩm trong giỏ hàng */}
+          <div className="cart-items">
+            <table className="cart-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cart.map((item) => (
+                  <CartItem
+                    key={item.id}
+                    product={item}
+                    onUpdateQuantity={updateQuantity}
+                    onRemove={removeItem}
+                  />
+                ))}
+              </tbody>
+            </table>
 
-    {/* Nhập mã giảm giá */}
-    <div className="cart-actions">
-      <input type="text" placeholder="Coupon code" className="coupon-input" />
-      <button className="apply-coupon">APPLY COUPON</button>
-    </div>
-  </div>
+            {/* Nhập mã giảm giá */}
+            <div className="cart-actions">
+              <input
+                type="text"
+                placeholder="Coupon code"
+                className="coupon-input"
+              />
+              <button className="apply-coupon">APPLY COUPON</button>
+            </div>
+          </div>
 
-  {/* Tóm tắt giỏ hàng */}
-  <CartSummary subtotal={subtotal} shipping={shipping} onCheckout={() => alert("Proceeding to checkout!")} />
-</div>
-
+          {/* Tóm tắt giỏ hàng */}
+          <CartSummary
+            subtotal={subtotal}
+            shipping={shipping}
+            onCheckout={handleCheckout}
+          />
+        </div>
       </div>
     </main>
   );

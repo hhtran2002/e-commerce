@@ -1,0 +1,151 @@
+/* ===== CHECKOUT PAGE ===== */
+
+.checkout-page {
+  padding: 40px 0;
+  background-color: #fafafa;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.checkout-empty {
+  text-align: center;
+  padding: 50px 0;
+}
+
+.checkout-empty h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.checkout-empty button {
+  background: #111;
+  color: #fff;
+  padding: 12px 28px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.checkout-empty button:hover {
+  background: #333;
+}
+
+/* ===== LAYOUT ===== */
+
+.checkout-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 40px auto;
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* ===== FORM BILLING ===== */
+
+.checkout-form {
+  flex: 1;
+  background: #fff;
+  padding: 25px 30px;
+  border: 1px solid #dedede;
+}
+
+.checkout-form h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.checkout-form label {
+  display: block;
+  margin-bottom: 18px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.checkout-form input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  transition: border-color 0.2s;
+}
+
+.checkout-form input:focus {
+  border-color: #111;
+  outline: none;
+}
+
+.place-order-btn {
+  width: 100%;
+  padding: 14px;
+  background: #111;
+  color: #fff;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.place-order-btn:hover {
+  background: #333;
+}
+
+/* ===== ORDER SUMMARY ===== */
+
+.order-summary {
+  flex: 0.6;
+  background: #fff;
+  padding: 25px 30px;
+  border: 1px solid #dedede;
+}
+
+.order-summary h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.order-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 25px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.order-item-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.order-total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 16px;
+}
+
+.order-total-row.total {
+  font-size: 18px;
+  font-weight: bold;
+  border-top: 2px solid #000;
+  margin-top: 10px;
+  padding-top: 14px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 900px) {
+  .checkout-container {
+    flex-direction: column;
+  }
+
+  .order-summary {
+    flex: 1;
+  }
+}

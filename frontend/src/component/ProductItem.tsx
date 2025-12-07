@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import "../style/ProductItem.css";
+import { useCart } from "../context/CartContext";
 
 const ProductItem: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -9,6 +10,9 @@ const ProductItem: React.FC = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [activeTab, setActiveTab] = useState<"description" | "additional" | "reviews">("description");
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   useEffect(() => {
     if (!productId) return;
@@ -35,11 +39,42 @@ const ProductItem: React.FC = () => {
 
   // Lấy item đầu tiên để hiển thị chi tiết (size, color, images...)
   const firstItem = product.items?.[0];
-
   const images = firstItem?.images || [];
 
   const imageUrl = (img: any) =>
     img?.cloudinary_url || img?.imageUrl || img?.image_url || "/fallback.jpg";
+
+  // Tạo object để đưa vào giỏ (không chứa quantity, vì quantity truyền riêng)
+  const buildCartItem = () => {
+    if (!product) return null;
+
+    const img = images[currentImage] || images[0] || null;
+
+    return {
+      // dùng id của ProductItem nếu có, fallback về id product
+      id: firstItem?.id ?? product.id,
+      name: product.name || `Product #${product.id}`,
+      price: Number(product.price) || 0,
+      image: img ? imageUrl(img) : "/fallback.jpg",
+    };
+  };
+
+  const handleAddToCart = () => {
+    const item = buildCartItem();
+    if (!item) return;
+
+    // addToCart(item, quantity) – quantity lấy từ state
+    addToCart(item, quantity);
+    navigate("/cart");
+  };
+
+  const handleBuyNow = () => {
+    const item = buildCartItem();
+    if (!item) return;
+
+    addToCart(item, quantity);
+    navigate("/checkout");
+  };
 
   return (
     <div className="product-page">
@@ -58,7 +93,11 @@ const ProductItem: React.FC = () => {
             ))}
           </div>
           <div className="main-image">
-            <img src={imageUrl(images[currentImage])} alt="Product" />
+            {images.length > 0 ? (
+              <img src={imageUrl(images[currentImage])} alt="Product" />
+            ) : (
+              <img src="/fallback.jpg" alt="Product" />
+            )}
           </div>
         </div>
 
@@ -113,8 +152,12 @@ const ProductItem: React.FC = () => {
           </div>
 
           <div className="action-buttons">
-            <button className="add-to-cart">ADD TO CART</button>
-            <button className="buy-now">BUY NOW</button>
+            <button className="add-to-cart" onClick={handleAddToCart}>
+              ADD TO CART
+            </button>
+            <button className="buy-now" onClick={handleBuyNow}>
+              BUY NOW
+            </button>
           </div>
 
           <div className="product-meta">

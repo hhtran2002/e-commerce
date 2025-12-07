@@ -12,27 +12,26 @@ import ProductManagement from "./src/component/ProductAdmin";
 import AdminDashboard from "./src/component/Dashboard";
 import Admin from "./src/page/Admin";
 
+import ShoppingCart from "./src/page/ShoppingCart";
+import CheckoutPage from "./src/page/Checkout"; // nếu bạn đặt tên khác thì sửa lại
+
 function App() {
   return (
     <>
-      {/* Navbar hiển thị ở mọi trang */}
       <Navbar onCartClick={() => {}} />
 
-      {/* Các route của app */}
       <Routes>
         <Route path="/" element={<Home />} />
-
         <Route path="/clothing" element={<ClothingPage />} />
-
         <Route path="/clothing/:category" element={<ClothingPage />} />
-
         <Route path="/swimwear" element={<Swimwear />} />
-
         <Route path="/accessories" element={<Accessories />} />
-
         <Route path="/sale" element={<Sale />} />
-
         <Route path="/product/:productId" element={<ItemPage />} />
+
+        {/* Trang giỏ hàng + checkout */}
+        <Route path="/cart" element={<ShoppingCart />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
 
         {/* ==== SITE ADMIN ==== */}
         <Route path="/admin" element={<Admin />}>
