@@ -1,4 +1,3 @@
-// backend/config/data-source.ts
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { config as dotenvConfig } from "dotenv";

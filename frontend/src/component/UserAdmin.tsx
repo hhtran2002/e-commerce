@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { User, UserInput } from '../type/User';
-import UserForm from '../component/UserForm';
-import UserTable from '../component/UserTable';
-import '../style/UserAdmin.css';
+import { useEffect, useState } from "react";
+import { User, UserInput } from "../type/User";
+import UserForm from "../component/UserForm";
+import UserTable from "../component/UserTable";
+import "../style/UserAdmin.css";
 // import Pagination from '../components/Pagination';
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft } from "react-icons/fa";
 
 const UserManagement = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -19,37 +19,35 @@ const UserManagement = () => {
   const loadUsers = () => {
     fetch(`http://localhost:3000/api/users?page=${page}&limit=${limit}`, {
       headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem('token') || ''}`
-      }
+        Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
+      },
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         setUsers(data.data || []);
         setTotalCount(data.totalCount || 0);
       })
-      .catch(err => console.error('Error loading users:', err));
+      .catch((err) => console.error("Error loading users:", err));
   };
-
-
 
   useEffect(() => {
     fetch(`http://localhost:3000/api/users?page=${page}&limit=${limit}`, {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('token') || ''}`
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
+      },
     })
-        .then(res => res.json())
-        .then(data => {
-          const arr = data?.data;
-          if (Array.isArray(arr)) {
-            setUsers(arr);
-            setTotalCount(data.totalCount || arr.length);
-          } else {
-            console.error("⚠️ Invalid user list:", data);
-          }
-        })
-        .catch(err => console.error('Error loading users:', err));
+      .then((res) => res.json())
+      .then((data) => {
+        const arr = data?.data;
+        if (Array.isArray(arr)) {
+          setUsers(arr);
+          setTotalCount(data.totalCount || arr.length);
+        } else {
+          console.error("⚠️ Invalid user list:", data);
+        }
+      })
+      .catch((err) => console.error("Error loading users:", err));
   }, [page]);
 
   // const handleAdd = () => {
@@ -63,57 +61,57 @@ const UserManagement = () => {
   };
 
   const handleDelete = (id: number) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
+    if (window.confirm("Are you sure you want to delete this user?")) {
       fetch(`http://localhost:3000/api/users/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${sessionStorage.getItem('token') || ''}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
         },
         credentials: "include",
-        redirect: 'manual'
+        redirect: "manual",
       })
-        .then(res => {
+        .then((res) => {
           if (res.ok) loadUsers();
-          else console.error('Failed to delete user');
+          else console.error("Failed to delete user");
         })
-        .catch(err => console.error('Error deleting user:', err));
+        .catch((err) => console.error("Error deleting user:", err));
     }
   };
 
   const handleFormSubmit = (user: UserInput | User) => {
-    if ('id' in user) {
+    if ("id" in user) {
       fetch(`http://localhost:3000/api/users/${user.id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${sessionStorage.getItem('token') || ''}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
         },
         body: JSON.stringify(user),
       })
-        .then(res => res.json())
+        .then((res) => res.json())
         .then(() => {
           loadUsers();
           setShowForm(false);
         })
-        .catch(err => console.error('Error updating user:', err));
+        .catch((err) => console.error("Error updating user:", err));
     } else {
-      fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
+      fetch("http://localhost:3000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
       })
-        .then(res => {
-          if (!res.ok) throw new Error('Creation failed');
+        .then((res) => {
+          if (!res.ok) throw new Error("Creation failed");
           return res.json();
         })
         .then(() => {
           loadUsers();
           setShowForm(false);
         })
-        .catch(err => {
-          console.error('Error adding user:', err);
-          alert('Email already exists or data is invalid!');
+        .catch((err) => {
+          console.error("Error adding user:", err);
+          alert("Email already exists or data is invalid!");
         });
     }
   };
@@ -143,24 +141,33 @@ const UserManagement = () => {
         </>
       ) : (
         <>
-          <UserTable users={currentUsers} onEdit={handleEdit} onDelete={handleDelete} />
+          <UserTable
+            users={currentUsers}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
 
           {totalPages > 1 && (
-            <div style={{ textAlign: 'center', marginTop: 20 }}>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
-                <button
-                  key={pageNumber}
-                  style={{
-                    margin: 4, padding: '8px 12px',
-                    backgroundColor: pageNumber === page ? '#333' : '#eee',
-                    color: pageNumber === page ? '#fff' : '#000',
-                    border: 'none', borderRadius: 4, cursor: 'pointer',
-                  }}
-                  onClick={() => setPage(pageNumber)}
-                >
-                  {pageNumber}
-                </button>
-              ))}
+            <div style={{ textAlign: "center", marginTop: 20 }}>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (pageNumber) => (
+                  <button
+                    key={pageNumber}
+                    style={{
+                      margin: 4,
+                      padding: "8px 12px",
+                      backgroundColor: pageNumber === page ? "#333" : "#eee",
+                      color: pageNumber === page ? "#fff" : "#000",
+                      border: "none",
+                      borderRadius: 4,
+                      cursor: "pointer",
+                    }}
+                    onClick={() => setPage(pageNumber)}
+                  >
+                    {pageNumber}
+                  </button>
+                )
+              )}
             </div>
           )}
         </>

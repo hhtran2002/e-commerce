@@ -1,16 +1,43 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import '../style/Login.css'; // Dùng chung style với Login
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "../style/Login.css"; // Dùng chung style với Login
 
 const ForgotPassword: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Gửi yêu cầu đặt lại mật khẩu cho:', email);
-    setSubmitted(true);
-    // TODO: Gọi API để gửi email đặt lại mật khẩu
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/password/forgot-password",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        setError(data.message || "Failed to send reset link");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Error connecting to server");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -19,7 +46,8 @@ const ForgotPassword: React.FC = () => {
       {!submitted ? (
         <>
           <p>
-            Enter your email address below and we’ll send you instructions to reset your password.
+            Enter your email address below and we’ll send you instructions to
+            reset your password.
           </p>
           <form className="login-form" onSubmit={handleSubmit}>
             <div className="input-group">
@@ -34,18 +62,30 @@ const ForgotPassword: React.FC = () => {
               />
             </div>
 
-            <button type="submit" className="login-btn">Send Reset Link</button>
+            {error && (
+              <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>
+            )}
 
-            <p style={{ color: 'black' }}>
+            <button type="submit" className="login-btn" disabled={loading}>
+              {loading ? "Sending..." : "Send Reset Link"}
+            </button>
+
+            <p style={{ color: "black" }}>
               Remember your password? <Link to="/login">Back to login</Link>
             </p>
           </form>
         </>
       ) : (
         <div className="success-message">
-          <p>A password reset link has been sent to <strong>{email}</strong>.</p>
+          <p>
+            A password reset link has been sent to <strong>{email}</strong>.
+          </p>
           <p>Please check your inbox and follow the instructions.</p>
-          <Link to="/login" className="login-btn" style={{ display: 'inline-block', marginTop: '20px' }}>
+          <Link
+            to="/login"
+            className="login-btn"
+            style={{ display: "inline-block", marginTop: "20px" }}
+          >
             Back to Login
           </Link>
         </div>
