@@ -17,10 +17,12 @@ const LoginSection: React.FC = () => {
         password: password
       });
 
-      // Backend trả về: { message, token, user }
+      // Cấu trúc thường là: res.data.accessToken hoặc res.accessToken
+      const token = res.data?.accessToken || res.data?.token || res.accessToken || res.token;
+      const user = res.data?.user || res.user;
       // Lưu token vào LocalStorage (Bền vững hơn SessionStorage)
-      localStorage.setItem('token', res.token);
-      localStorage.setItem('userInfo', JSON.stringify(res.user));
+      localStorage.setItem('token', token);
+      localStorage.setItem('userInfo', JSON.stringify(user));
 
       alert('Login Successful!');
       navigate('/'); // Chuyển về trang chủ
