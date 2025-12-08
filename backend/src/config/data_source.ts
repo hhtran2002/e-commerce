@@ -1,4 +1,3 @@
-// backend/config/data-source.ts
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { config as dotenvConfig } from "dotenv";
@@ -47,35 +46,17 @@ import { AILog } from "../entity/CBAILog"; // đổi theo tên file thật
 
 export const AppDataSource = new DataSource({
   type: "mssql",
-  host: ENV.HOST, // đã là string, không còn undefined
+  host: ENV.HOST,                // đã là string, không còn undefined
   port: ENV.PORT,
   username: ENV.USERNAME,
   password: ENV.PASSWORD,
   database: ENV.DBNAME,
-  synchronize: false, // disabled to avoid altering existing schema automatically
+  synchronize: true,             // dev thôi, prod dùng migration
   logging: false,
   entities: [
-    User,
-    Role,
-    UserAddress,
-    Category,
-    Color,
-    Image,
-    Size,
-    Product,
-    ProductItem,
-    Cart,
-    CartItem,
-    Order,
-    OrderItem,
-    Payment,
-    Promotion,
-    ShippingMethod,
-    Review,
-    Conversation,
-    Message,
-    FAQ,
-    AILog,
+    User, Role, UserAddress, Category, Color, Image, Size, Product, ProductItem,
+    Cart, CartItem, Order, OrderItem, Payment, Promotion, ShippingMethod,
+    Review, Conversation, Message, FAQ, AILog,
   ],
   migrations: [],
   subscribers: [],

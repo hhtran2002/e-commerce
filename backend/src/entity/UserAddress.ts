@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Index } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
+import { User } from "./User";
 
 @Entity({ name: "user_addresses" })
 export class UserAddress {
@@ -9,7 +16,8 @@ export class UserAddress {
   streetName!: string;
 
   @Column({ length: 255 })
-  ward!: string;
+  @Column({ length: 255, nullable: true })
+  ward?: string;
 
   @Column({ length: 255 })
   city!: string;
@@ -17,4 +25,7 @@ export class UserAddress {
   @Column({ length: 255 })
   country!: string;
 
+  @ManyToOne(() => User, (u) => u.addresses, { nullable: false })
+  @JoinColumn({ name: "userId" })
+  user!: User;
 }

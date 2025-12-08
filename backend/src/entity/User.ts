@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  JoinColumn,
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
@@ -49,9 +48,8 @@ export class User {
   @ManyToOne(() => Role, (r) => r.users, { nullable: false })
   role!: Role;
 
-  @ManyToOne(() => UserAddress, { nullable: true })
-  @JoinColumn({ name: "addressId" }) // tạo cột addressId trong users
-  address?: UserAddress;
+  @OneToMany(() => UserAddress, (a) => a.user)
+  addresses!: UserAddress[];
 
   @CreateDateColumn()
   createdAt!: Date;

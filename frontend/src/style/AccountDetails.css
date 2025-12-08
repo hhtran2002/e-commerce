@@ -1,60 +1,88 @@
 .account-details {
-    max-width: 100%;
-    margin: auto;
-    padding: 20px;
-  }
-  
-  .input-group {
-    margin-bottom: 15px;
-  }
-  
-  .input-group label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .input-group input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  small {
-    font-size: 12px;
-    color: #777;
-  }
-  
-  .password-section {
-    margin-top: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-  }
-  
-  .password-input {
-    display: flex;
-    align-items: center;
-  }
-  
-  .password-input input {
-    flex-grow: 1;
-  }
-  
-  .password-input span {
-    margin-left: -30px;
-    cursor: pointer;
-  }
-  
-  .save-button {
-    background-color: black;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .save-button:hover {
-    opacity: 0.8;
-  }
-  
+  max-width: 100%;
+  margin: auto;
+  padding: 20px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+small {
+  font-size: 12px;
+  color: #777;
+}
+
+.password-section {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+}
+
+.password-input {
+  display: flex;
+  align-items: center;
+}
+
+.password-input input {
+  flex-grow: 1;
+}
+
+.password-input span {
+  margin-left: -30px;
+  cursor: pointer;
+}
+
+.save-button {
+  background-color: black;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  opacity: 0.8;
+}
+
+/* Address Section Styles */
+.address-section {
+  padding: 20px;
+  border-top: 2px solid #ddd;
+}
+
+.address-section h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.address-section h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.existing-addresses {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.existing-addresses p {
+  margin: 10px 0;
+}

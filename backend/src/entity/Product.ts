@@ -15,7 +15,7 @@ export class Product {
   name!: string;
 
   @Column({ type: "text", nullable: true })
-  description?: string;
+  description?: string | null;
 
   @ManyToOne(() => Category, (c) => c.products, { nullable: false })
   category!: Category;

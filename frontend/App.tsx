@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "../frontend/src/page/Home";
-import Swimwear from "../frontend/src/page/Swimwear";
+import Home from "./src/page/Home";
+import Swimwear from "./src/page/Swimwear";
 import Navbar from "./src/component/Navbar";
 import Accessories from "./src/page/Accessories";
 import Sale from "./src/page/Sale";
-import ClothingPage from "../frontend/src/page/Clothing";
+import ClothingPage from "./src/page/Clothing";
 import ItemPage from "./src/page/ItemPage";
 import OrderManagement from "./src/component/OrderAdmin";
 import UserManagement from "./src/component/UserAdmin";
@@ -13,6 +13,11 @@ import AdminDashboard from "./src/component/Dashboard";
 import Admin from "./src/page/Admin";
 import ForgotPassword from "./src/component/ForgotPassword";
 import ResetPassword from "./src/component/ResetPassword";
+import LoginSection from "./src/page/Login";
+import RegisterSection from "./src/page/Register";
+import ShoppingCart from "./src/page/ShoppingCart";
+import Checkout from "./src/page/Checkout";
+import MyAccount from "./src/page/MyAccount";
 
 function App() {
   return (
@@ -22,24 +27,33 @@ function App() {
 
       {/* Các route của app */}
       <Routes>
+        {/* Trang chủ */}
         <Route path="/" element={<Home />} />
 
-        {/* Clothing tổng */}
-        <Route path="/clothing" element={<ClothingPage />} />
+        {/* Auth */}
+        <Route path="/login" element={<LoginSection />} />
+        <Route path="/register" element={<RegisterSection />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* Clothing theo danh mục con */}
+        {/* Clothing tổng + theo category */}
+        <Route path="/clothing" element={<ClothingPage />} />
         <Route path="/clothing/:category" element={<ClothingPage />} />
 
+        {/* Các trang khác */}
         <Route path="/swimwear" element={<Swimwear />} />
-
         <Route path="/accessories" element={<Accessories />} />
-
         <Route path="/sale" element={<Sale />} />
 
         {/* Trang chi tiết sản phẩm */}
         <Route path="/product/:productId" element={<ItemPage />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+
+        {/* Trang giỏ hàng + checkout */}
+        <Route path="/cart" element={<ShoppingCart />} />
+        <Route path="/checkout" element={<Checkout />} />
+
+        {/* Trang My Account */}
+        <Route path="/myaccount/*" element={<MyAccount />} />
 
         {/* ==== SITE ADMIN ==== */}
         <Route path="/admin" element={<Admin />}>
@@ -47,7 +61,6 @@ function App() {
           <Route path="products" element={<ProductManagement />} />
           <Route path="users" element={<UserManagement />} />
           <Route path="orders" element={<OrderManagement />} />
-          {/* admin-only nested routes above; site-level password routes moved out */}
         </Route>
       </Routes>
     </>

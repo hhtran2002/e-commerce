@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import "../style/ProductItem.css";
+import { useCart } from "../context/CartContext";
 
 const ProductItem: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
   const [product, setProduct] = useState<any>(null);
   const [quantity, setQuantity] = useState(1);
   const [currentImage, setCurrentImage] = useState(0);
-  const [activeTab, setActiveTab] = useState<"description" | "additional" | "reviews">("description");
+  const [activeTab, setActiveTab] = useState<
+    "description" | "additional" | "reviews"
+  >("description");
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   useEffect(() => {
     if (!productId) return;
 
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/products/${productId}`);
+        const res = await fetch(
+          `http://localhost:3000/api/products/${productId}`
+        );
         if (!res.ok) throw new Error("Failed to fetch product details");
         const data = await res.json();
         setProduct(data);
@@ -33,13 +41,36 @@ const ProductItem: React.FC = () => {
   if (loading) return <p>Loading...</p>;
   if (!product) return <p>Product not found.</p>;
 
-  // Lấy item đầu tiên để hiển thị chi tiết (size, color, images...)
+  // item đầu tiên để lấy ảnh / color / size
   const firstItem = product.items?.[0];
-
   const images = firstItem?.images || [];
 
   const imageUrl = (img: any) =>
     img?.cloudinary_url || img?.imageUrl || img?.image_url || "/fallback.jpg";
+
+  // ✅ Tạo object đưa vào giỏ: dùng product.id cho thống nhất
+  const buildCartItem = () => {
+    const img = images[currentImage] || images[0] || null;
+
+    return {
+      id: product.id, // ❗ luôn dùng product.id
+      name: product.name || `Product #${product.id}`,
+      price: Number(product.price) || 0,
+      image: img ? imageUrl(img) : "/fallback.jpg",
+    };
+  };
+
+  const handleAddToCart = () => {
+    const item = buildCartItem();
+    addToCart(item, quantity);
+    navigate("/cart");
+  };
+
+  const handleBuyNow = () => {
+    const item = buildCartItem();
+    addToCart(item, quantity);
+    navigate("/checkout");
+  };
 
   return (
     <div className="product-page">
@@ -52,13 +83,19 @@ const ProductItem: React.FC = () => {
                 key={index}
                 src={imageUrl(img)}
                 alt={`Thumbnail ${index + 1}`}
-                className={`thumbnail ${currentImage === index ? "active" : ""}`}
+                className={`thumbnail ${
+                  currentImage === index ? "active" : ""
+                }`}
                 onClick={() => setCurrentImage(index)}
               />
             ))}
           </div>
           <div className="main-image">
-            <img src={imageUrl(images[currentImage])} alt="Product" />
+            {images.length > 0 ? (
+              <img src={imageUrl(images[currentImage])} alt="Product" />
+            ) : (
+              <img src="/fallback.jpg" alt="Product" />
+            )}
           </div>
         </div>
 
@@ -104,17 +141,21 @@ const ProductItem: React.FC = () => {
 
           <div className="quantity-selection">
             <button
-              onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
+              onClick={() => setQuantity((q) => (q > 1 ? q - 1 : 1))}
             >
               -
             </button>
             <span>{quantity}</span>
-            <button onClick={() => setQuantity(quantity + 1)}>+</button>
+            <button onClick={() => setQuantity((q) => q + 1)}>+</button>
           </div>
 
           <div className="action-buttons">
-            <button className="add-to-cart">ADD TO CART</button>
-            <button className="buy-now">BUY NOW</button>
+            <button className="add-to-cart" onClick={handleAddToCart}>
+              ADD TO CART
+            </button>
+            <button className="buy-now" onClick={handleBuyNow}>
+              BUY NOW
+            </button>
           </div>
 
           <div className="product-meta">

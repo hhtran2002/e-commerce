@@ -1,61 +1,48 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-
+import authApi from '../api/authApi'; // Import API
 import '../style/Register.css';
-
 
 const RegisterSection: React.FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-
   const [phone, setPhone] = useState('');
-
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState(''); // Thêm trường FullName nếu cần
+  
   const navigate = useNavigate();
 
-
   const handleRegister = async () => {
-
     if (password !== confirmPassword) {
-      alert('Mật khẩu không khớp');
+      alert('Mật khẩu xác nhận không khớp!');
       return;
     }
 
     try {
-      const res = await fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username,
-          password,
-          email,
-          phone,
-        }),
+      // Gọi API
+      await authApi.register({
+        userName: username, // Backend chờ "userName" (camelCase)
+        email: email,
+        password: password,
+        phone: phone,
+        fullName: fullName || username // Nếu chưa có input fullName thì lấy tạm username
       });
 
-      const data = await res.json();
+      alert('Đăng ký thành công! Vui lòng đăng nhập.');
+      navigate('/login'); // Chuyển sang trang login
 
-      if (res.ok) {
-        alert('Đăng ký thành công!');
-        navigate('/login');
-      } else {
-        alert(data.message || 'Đăng ký thất bại');
-      }
-    } catch (error) {
-      alert('Lỗi kết nối đến server');
-      console.error(error);
+    } catch (error: any) {
+      console.error("Register Error:", error);
+      const message = error.response?.data?.message || 'Đăng ký thất bại';
+      alert(message);
     }
-
   };
 
   return (
     <div className="login-section">
       <h2>REGISTER</h2>
-
-      <p>Create an account to track orders, save favorites, and more!</p>
+      <p>Create an account to track orders and save favorites!</p>
 
       <form
         className="login-form"
@@ -64,7 +51,6 @@ const RegisterSection: React.FC = () => {
           handleRegister();
         }}
       >
-
         {/* Username */}
         <div className="input-group">
           <label htmlFor="reg-username">Username</label>
@@ -75,6 +61,18 @@ const RegisterSection: React.FC = () => {
             onChange={(e) => setUsername(e.target.value)}
             required
             placeholder="Choose a username"
+          />
+        </div>
+        
+        {/* Full Name (Optional - Thêm vào cho đủ data backend) */}
+        <div className="input-group">
+          <label htmlFor="fullname">Full Name</label>
+          <input
+            type="text"
+            id="fullname"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            placeholder="Enter your full name"
           />
         </div>
 
@@ -91,7 +89,6 @@ const RegisterSection: React.FC = () => {
           />
         </div>
 
-
         {/* Phone */}
         <div className="input-group">
           <label htmlFor="phone">Phone</label>
@@ -104,7 +101,6 @@ const RegisterSection: React.FC = () => {
             placeholder="Enter your phone number"
           />
         </div>
-
 
         {/* Password */}
         <div className="input-group">
@@ -132,14 +128,10 @@ const RegisterSection: React.FC = () => {
           />
         </div>
 
-        {/* Submit */}
-
         <button type="submit" className="login-btn">
           REGISTER
         </button>
 
-
-        {/* Link về login */}
         <p style={{ color: 'black' }}>
           Already have an account? <Link to="/login">Login here</Link>
         </p>
