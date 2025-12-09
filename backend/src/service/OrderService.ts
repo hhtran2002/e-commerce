@@ -81,4 +81,77 @@ export class OrderService {
 
     return savedOrder;
   }
+
+  async getOrdersByUser(userId: number): Promise<Order[]> {
+    return this.orderRepo.find({
+      where: { user: { id: userId } },
+      relations: ["user", "items"],
+      order: { createdAt: "DESC" } as any,
+    });
+  }
+
+  async getAllOrders(): Promise<Order[]> {
+    return this.orderRepo.find({
+      relations: ["user", "items"],
+      order: { createdAt: "DESC" } as any,
+    });
+  }
+
+  async listOrders(
+    page = 1,
+    limit = 10,
+    search?: string
+  ): Promise<{ data: Order[]; totalCount: number }> {
+    const qb = this.orderRepo
+      .createQueryBuilder("order")
+      .leftJoinAndSelect("order.user", "user")
+      .leftJoinAndSelect("order.items", "items");
+
+    if (search) {
+      const like = `%${search}%`;
+      // If search is numeric, also allow searching by order id
+      if (!Number.isNaN(Number(search))) {
+        qb.where("order.id = :id", { id: Number(search) });
+      } else {
+        qb.where("user.username LIKE :like OR user.email LIKE :like", { like });
+      }
+    }
+
+    const totalCount = await qb.getCount();
+
+    const data = await qb
+      .orderBy("order.createdAt", "DESC")
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getMany();
+
+    return { data, totalCount };
+  }
+
+  async deleteOrder(orderId: number): Promise<void> {
+    await this.orderRepo.delete({ id: orderId });
+  }
+
+  async updateOrderStatus(orderId: number, status: string): Promise<Order> {
+    const order = await this.orderRepo.findOne({
+      where: { id: orderId },
+      relations: ["user", "items"],
+    });
+    if (!order) throw new Error("Order not found");
+    order.status = status;
+    await this.orderRepo.save(order);
+    return order;
+  }
+
+  async cancelOrder(orderId: number): Promise<Order> {
+    const order = await this.orderRepo.findOne({
+      where: { id: orderId },
+      relations: ["user", "items"],
+    });
+    if (!order) throw new Error("Order not found");
+
+    order.status = "CANCELLED";
+    await this.orderRepo.save(order);
+    return order;
+  }
 }

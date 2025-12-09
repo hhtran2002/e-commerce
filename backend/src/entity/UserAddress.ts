@@ -15,8 +15,8 @@ export class UserAddress {
   @Column({ length: 255 })
   streetName!: string;
 
-  @Column({ length: 255 })
-  ward?: string;
+  @Column({ type: "nvarchar", length: 255, nullable: true })
+  ward?: string | null;
 
   @Column({ length: 255 })
   city!: string;
