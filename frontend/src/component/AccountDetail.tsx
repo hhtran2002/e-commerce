@@ -31,6 +31,7 @@ const AccountDetails: React.FC = () => {
 
   const [addressFormData, setAddressFormData] = useState({
     streetName: "",
+    ward: "",
     city: "",
     country: "",
   });
@@ -38,6 +39,37 @@ const AccountDetails: React.FC = () => {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [editingAddressId, setEditingAddressId] = useState<number | null>(null);
   const [addresses, setAddresses] = useState<any[]>([]);
+
+  // Fetch addresses for current user
+  const fetchAddresses = async () => {
+    try {
+      if (!user || !user.id) return;
+      const res = await fetch(
+        `http://localhost:3000/api/addresses/user/${user.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        console.error("Failed fetching addresses", res.status);
+        return;
+      }
+
+      const json = await res.json();
+      // backend returns { message, data }
+      setAddresses(json.data || []);
+    } catch (err) {
+      console.error("Error fetching addresses:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchAddresses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   // Cập nhật displayName khi user data thay đổi
   useEffect(() => {
@@ -99,11 +131,14 @@ const AccountDetails: React.FC = () => {
         });
         setAddressFormData({
           streetName: "",
+          ward: "",
           city: "",
           country: "",
         });
         setShowAddressForm(false);
         setEditingAddressId(null);
+        // refresh addresses list
+        await fetchAddresses();
       } else {
         const errorData = await response.json();
         setNotification({
@@ -117,6 +152,48 @@ const AccountDetails: React.FC = () => {
         message: "Server error",
         type: "error",
       });
+    }
+  };
+
+  const handleEditAddress = (addr: any) => {
+    setEditingAddressId(addr.id || null);
+    setAddressFormData({
+      streetName: addr.streetName || "",
+      ward: addr.ward || "",
+      city: addr.city || "",
+      country: addr.country || "",
+    });
+    setShowAddressForm(true);
+  };
+
+  const handleDeleteAddress = async (addressId: number) => {
+    if (!confirm("Are you sure you want to delete this address?")) return;
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/addresses/${addressId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setNotification({
+          message: err.message || "Failed to delete address",
+          type: "error",
+        });
+        return;
+      }
+
+      setNotification({ message: "Address deleted", type: "success" });
+      await fetchAddresses();
+    } catch (err) {
+      console.error("Delete address error:", err);
+      setNotification({ message: "Server error", type: "error" });
     }
   };
 
@@ -337,6 +414,17 @@ const AccountDetails: React.FC = () => {
             </div>
 
             <div className="input-group">
+              <label>Ward</label>
+              <input
+                type="text"
+                name="ward"
+                value={addressFormData.ward}
+                onChange={handleAddressChange}
+                placeholder="Enter ward (optional)"
+              />
+            </div>
+
+            <div className="input-group">
               <label>City *</label>
               <input
                 type="text"
@@ -384,10 +472,25 @@ const AccountDetails: React.FC = () => {
                 >
                   <p>
                     <strong>{addr.streetName}</strong>
+                    {addr.ward ? `, ${addr.ward}` : ""}, {addr.city},{" "}
+                    {addr.country}
                   </p>
-                  <p>
-                    {addr.city}, {addr.country}
-                  </p>
+                  <div style={{ marginTop: 8 }}>
+                    <button
+                      type="button"
+                      onClick={() => handleEditAddress(addr)}
+                      style={{ marginRight: 8 }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteAddress(addr.id)}
+                      style={{ color: "red" }}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

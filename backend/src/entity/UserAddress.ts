@@ -16,7 +16,6 @@ export class UserAddress {
   streetName!: string;
 
   @Column({ length: 255 })
-  @Column({ length: 255, nullable: true })
   ward?: string;
 
   @Column({ length: 255 })
