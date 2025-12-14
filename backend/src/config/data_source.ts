@@ -54,7 +54,7 @@ export const AppDataSource = new DataSource({
   database: ENV.DBNAME,
   //synchronize: false, // disabled to avoid altering existing schema automatically
   // --- QUAN TRỌNG: Cấu hình đồng bộ ---
-  synchronize: false,  // Tự động sửa bảng cho khớp với code (Add cột, sửa cột...)
+  synchronize: true,  // Tự động sửa bảng cho khớp với code (Add cột, sửa cột...)
   dropSchema: false,   // <--- THÊM DÒNG NÀY: Xóa sạch dữ liệu cũ mỗi khi chạy lại server
   // ------------------------------------
   logging: false,

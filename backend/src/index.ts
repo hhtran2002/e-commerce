@@ -5,6 +5,7 @@ import productRoutes from "./route/ProductRoute";
 import passwordRoutes from "./route/passwordRoute";
 import authRoutes from "./route/AuthRoute";
 import { takeListUserRoutes } from "./route/TakeListUserRoute";
+import chatbotRoutes from "./route/ChatbotRoute";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/password", passwordRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", takeListUserRoutes);
+app.use("/api/chatbot", chatbotRoutes);
 
 AppDataSource.initialize()
   .then(() => {

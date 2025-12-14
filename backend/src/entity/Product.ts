@@ -37,4 +37,8 @@ export class Product {
 
   @OneToMany(() => ProductItem, (pi) => pi.product)
   items!: ProductItem[];
+
+  // sử dụng để lưu vector embedding
+  @Column("simple-array", {nullable: true, select: false})
+  embedding?: number[];
 }
