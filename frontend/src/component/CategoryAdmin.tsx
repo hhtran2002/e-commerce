@@ -95,7 +95,7 @@ const CategoryAdmin: React.FC = () => {
 
   const handleAdd = () => {
     if (!newName.trim()) {
-      alert("Vui lòng nhập tên");
+      alert("Please enter a category name.");
       return;
     }
     fetch("http://localhost:3000/api/categories/create", {

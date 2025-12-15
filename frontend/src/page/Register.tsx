@@ -15,7 +15,7 @@ const RegisterSection: React.FC = () => {
 
   const handleRegister = async () => {
     if (password !== confirmPassword) {
-      alert('Mật khẩu xác nhận không khớp!');
+      alert('Passwords do not match.');
       return;
     }
 
@@ -29,12 +29,12 @@ const RegisterSection: React.FC = () => {
         fullName: fullName || username // Nếu chưa có input fullName thì lấy tạm username
       });
 
-      alert('Đăng ký thành công! Vui lòng đăng nhập.');
+      alert('Successfully registered! Please log in.');
       navigate('/login'); // Chuyển sang trang login
 
     } catch (error: any) {
       console.error("Register Error:", error);
-      const message = error.response?.data?.message || 'Đăng ký thất bại';
+      const message = error.response?.data?.message || 'Registration failed';
       alert(message);
     }
   };

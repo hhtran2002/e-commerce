@@ -106,13 +106,13 @@ const ProductAdmin: React.FC = () => {
         method: "DELETE",
       });
       if (!res.ok) {
-        alert("Xóa thất bại!");
+        alert("Delete product failed");
         return;
       }
       await loadProducts();
     } catch (err) {
       console.error("Error deleting product:", err);
-      alert("Có lỗi xảy ra khi xóa sản phẩm.");
+      alert("Error deleting product");
     }
   };
 
@@ -161,8 +161,8 @@ const ProductAdmin: React.FC = () => {
         }
       }
     } catch (err) {
-      console.error("Lỗi upload ảnh:", err);
-      alert("Upload ảnh thất bại");
+      console.error("Error uploading image:", err);
+      alert("Upload image failed");
     } finally {
       setUploading(false);
       // reset input
@@ -179,19 +179,19 @@ const ProductAdmin: React.FC = () => {
 
   const handleSubmit = async () => {
     if (!formData.name.trim()) {
-      alert("Vui lòng nhập tên sản phẩm");
+      alert("Please enter product name.");
       return;
     }
     if (!formData.price) {
-      alert("Vui lòng nhập giá");
+      alert("Please enter product price.");
       return;
     }
     if (!formData.stockQuantity) {
-      alert("Vui lòng nhập số lượng tồn");
+      alert("Please enter stock quantity.");
       return;
     }
     if (!formData.categoryId) {
-      alert("Vui lòng chọn danh mục");
+      alert("Please select a category.");
       return;
     }
 
@@ -216,7 +216,7 @@ const ProductAdmin: React.FC = () => {
           }
         );
         if (!res.ok) {
-          alert("Cập nhật sản phẩm thất bại");
+          alert("Update product failed");
           return;
         }
       } else {
@@ -227,7 +227,7 @@ const ProductAdmin: React.FC = () => {
           body: JSON.stringify(body),
         });
         if (!res.ok) {
-          alert("Thêm sản phẩm thất bại");
+          alert("Add product failed");
           return;
         }
       }
@@ -238,7 +238,7 @@ const ProductAdmin: React.FC = () => {
       setFormData(emptyForm);
     } catch (err) {
       console.error("Error saving product:", err);
-      alert("Có lỗi xảy ra khi lưu sản phẩm");
+      alert("Error saving product");
     }
   };
 

@@ -29,20 +29,19 @@ const InvoiceButton: React.FC<Props> = ({ id }) => {
       const data = await res.json();
 
       if (!data || !Array.isArray(data.orderItems)) {
-        console.error("Dữ liệu đơn hàng không hợp lệ:", data);
-        // alert("Không thể tạo hóa đơn: đơn hàng thiếu sản phẩm.");
+        console.error("Data order invalid:", data);
         return;
       }
 
       const customerName =
-        data.user?.fullName || data.guest_name || "Khách hàng";
+        data.user?.fullName || data.guest_name || "Customer";
 
       const orderForPdf: OrderData = {
         customerName,
         orderId: "ORD-" + id,
         total: data.order_total || 0,
         items: data.orderItems.map((item: any) => ({
-          name: item.productItem?.product?.name || "Sản phẩm không rõ",
+          name: item.productItem?.product?.name || "Unknown product",
           quantity: parseInt(item.quantity),
           price: parseFloat(item.price),
         })),
@@ -60,18 +59,18 @@ const InvoiceButton: React.FC<Props> = ({ id }) => {
         }
       );
 
-      if (!response.ok) throw new Error("Tạo hóa đơn thất bại");
+      if (!response.ok) throw new Error("Could not create invoice");
 
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       window.open(url);
     } catch (error) {
-      console.error("Lỗi tạo hóa đơn:", error);
-      // alert("Không thể in hóa đơn. Xem log để biết chi tiết.");
+      console.error("Error create bill:", error);
+      
     }
   };
 
-  return <button onClick={handleDownloadInvoice}>🧾 In hóa đơn</button>;
+  return <button onClick={handleDownloadInvoice}>Print Bill</button>;
 };
 
 export default InvoiceButton;

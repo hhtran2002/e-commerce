@@ -212,4 +212,5 @@ header {
   width: auto;     /* tự giữ tỉ lệ, không bị méo */
   object-fit: contain;
   display: block;
+  justify-content: center;
 }

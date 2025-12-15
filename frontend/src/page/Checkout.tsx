@@ -24,12 +24,12 @@ const Checkout: React.FC = () => {
     e.preventDefault();
 
     if (!fullName || !address || !phone) {
-      alert("Vui lòng điền đầy đủ thông tin.");
+      alert("Please fill in all required fields.");
       return;
     }
 
     if (cart.length === 0) {
-      alert("Giỏ hàng đang trống.");
+      alert("Cart is empty.");
       return;
     }
 
@@ -62,30 +62,30 @@ const Checkout: React.FC = () => {
       });
 
       if (!res.ok) {
-        let errMessage = "Tạo đơn hàng thất bại. Kiểm tra log backend.";
+        let errMessage = "Create order failed.";
         try {
           const errData = await res.json();
-          console.error("❌ Tạo đơn thất bại:", errData);
+          console.error("Create order failed:", errData);
           if (errData?.message) {
-            errMessage = `Tạo đơn hàng thất bại: ${errData.message}`;
+            errMessage = `Create order failed: ${errData.message}`;
           }
         } catch (parseErr) {
           const errText = await res.text();
-          console.error("❌ Tạo đơn thất bại (text):", errText);
+          console.error("Create order failed (text):", errText);
         }
         alert(errMessage);
         return;
       }
 
       const data = await res.json();
-      console.log("✅ Order created:", data);
+      console.log("Order created:", data);
 
-      alert("Đặt hàng thành công! " + (data.id ? `Mã đơn: ${data.id}` : ""));
+      alert("Order created successfully!" + (data.id ? ` Order ID: ${data.id}` : ""));
       clearCart();
       navigate("/");
     } catch (error) {
-      console.error("❌ Lỗi khi gọi API tạo đơn:", error);
-      alert("Có lỗi khi tạo đơn hàng. Vui lòng thử lại.");
+      console.error("Error creating order:", error);
+      alert("An error occurred while creating the order.");
     } finally {
       setLoading(false);
     }
@@ -96,7 +96,7 @@ const Checkout: React.FC = () => {
       <main className="checkout-page">
         <Breadcrumb title="CHECKOUT" />
         <div className="checkout-empty">
-          <h2>Không có sản phẩm nào để thanh toán.</h2>
+          <h2>No product</h2>
           <button onClick={() => navigate("/")}>RETURN TO SHOP</button>
         </div>
       </main>
@@ -117,7 +117,7 @@ const Checkout: React.FC = () => {
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              placeholder="Nguyễn Văn A"
+              placeholder="Nguyen Van A"
             />
           </label>
 

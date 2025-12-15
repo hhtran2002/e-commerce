@@ -9,9 +9,9 @@ const Breadcrumb = ({title}:{title:string}) => {
   return (
     <div className="breadcrumb-container">
       <span className="breadcrumb-back" onClick={() => navigate('/')}>
-        <ArrowLeft size={30} className="breadcrumb-icon" />
+        <ArrowLeft/>
       </span>
-      <span>{title}</span>
+      <span className="breadcrumb-title">{title}</span>
     </div>
   );
 };

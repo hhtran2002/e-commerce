@@ -38,7 +38,7 @@ const categorySizes: Record<string, string[]> = {
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, allowedCategories }) => {
-  const [openCategories, setOpenCategories] = useState<{ [key: string]: boolean }>({});
+  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
   const [filters, setFilters] = useState<FilterOptions>({});
   const [priceRange, setPriceRange] = useState<[number, number]>([70, 1000]);
 
@@ -54,24 +54,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, allowedCategories }) 
     : categories;
 
   const toggleCategory = (category: string) => {
-    setOpenCategories((prev) => ({
-      ...prev,
-      [category]: !prev[category],
-    }));
-
-    setFilters((prev) => ({
-      ...prev,
-      category,
-      subcategory: undefined,
-      size: undefined, // reset size khi đổi category
-    }));
+    setOpenCategories((prev) => ({ ...prev, [category]: !prev[category] }));
+    setFilters((prev) => ({ ...prev, category, subcategory: undefined, size: undefined }));
   };
 
-  const updateLocalFilters = (newPartialFilters: Partial<FilterOptions>) => {
-    setFilters((prev) => ({ ...prev, ...newPartialFilters }));
-  };
-
-  const handleApplyFilters = () => {
+  const applyFilters = () => {
     onFilterChange({
       ...filters,
       minPrice: priceRange[0],
@@ -81,16 +68,16 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, allowedCategories }) 
 
   return (
     <aside className="sidebar">
-      <h3>SHOP BY CATEGORIES</h3>
-      <ul className="no-bullets">
+      <h3 className="sidebar-title">SHOP BY CATEGORIES</h3>
+
+      <ul className="category-list">
         {visibleCategories.map((category) => {
           const ref = useRef<HTMLDivElement>(null);
 
           useEffect(() => {
-            const element = ref.current;
-            if (element) {
-              element.style.maxHeight = openCategories[category.name]
-                ? `${element.scrollHeight}px`
+            if (ref.current) {
+              ref.current.style.maxHeight = openCategories[category.name]
+                ? `${ref.current.scrollHeight}px`
                 : "0px";
             }
           }, [openCategories[category.name]]);
@@ -98,45 +85,24 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, allowedCategories }) 
           return (
             <li key={category.name}>
               <div className="category-header" onClick={() => toggleCategory(category.name)}>
-                <span className="category-title">{category.name}</span>
-                {category.subcategories.length > 0 && (
-                  <span className="ti-wrapper">
-                    <i className={`ti-${openCategories[category.name] ? "angle-up" : "angle-down"}`} />
-                  </span>
-                )}
+                <span>{category.name}</span>
+                <i className={`ti-${openCategories[category.name] ? "angle-up" : "angle-down"}`} />
               </div>
 
               <div ref={ref} className="subcategory-wrapper">
-                <ul className="subcategory-list no-bullets">
+                <ul className="subcategory-list">
                   {category.subcategories.map((sub) => (
                     <li
                       key={sub}
-                      className={filters.category === sub ? "active" : ""}
-                      onClick={() => {
-                        if (category.name === "Sale" && ["Clothing", "Swimwear", "Accessories"].includes(sub)) {
-                          setFilters((prev) => ({
-                            ...prev,
-                            category: sub,
-                            subcategory: undefined,
-                            size: undefined,
-                          }));
-                          onFilterChange({
-                            ...filters,
-                            category: sub,
-                            subcategory: undefined,
-                            size: undefined,
-                            minPrice: priceRange[0],
-                            maxPrice: priceRange[1],
-                          });
-                        } else {
-                          setFilters((prev) => ({
-                            ...prev,
-                            category: category.name,
-                            subcategory: String(subcategoryNameToId[sub]),
-                            size: undefined,
-                          }));
-                        }
-                      }}
+                      className={filters.subcategory === String(subcategoryNameToId[sub]) ? "active" : ""}
+                      onClick={() =>
+                        setFilters((prev) => ({
+                          ...prev,
+                          category: category.name,
+                          subcategory: String(subcategoryNameToId[sub]),
+                          size: undefined,
+                        }))
+                      }
                     >
                       {sub}
                     </li>
@@ -148,89 +114,59 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, allowedCategories }) 
         })}
       </ul>
 
-      <hr className="section-divider" />
+      <hr />
 
-      <h3>SHOP BY PRICE</h3>
-      <div className="price-range-container">
+      <h3 className="sidebar-title">SHOP BY PRICE</h3>
+      <div className="price-section">
         <Range
           step={1}
           min={0}
           max={1000}
           values={priceRange}
-          onChange={(values) => setPriceRange([...values] as [number, number])}
+          onChange={(values) => setPriceRange(values as [number, number])}
           renderTrack={({ props, children }) => (
-            <div
-              {...props}
-              style={{
-                height: "6px",
-                background: `linear-gradient(to right, #ccc 0%, #000 ${(priceRange[0] - 70) / 1.8}%, #000 ${(priceRange[1] - 70) / 1.8}%, #ccc 100%)`,
-                borderRadius: "4px",
-                margin: "20px 0",
-                ...props.style,
-              }}
-            >
+            <div {...props} className="price-track">
               {children}
             </div>
           )}
-          renderThumb={({ props }) => (
-            <div
-              {...props}
-              style={{
-                height: "20px",
-                width: "20px",
-                borderRadius: "50%",
-                backgroundColor: "white",
-                border: "2px solid white",
-                ...props.style,
-              }}
-            />
-          )}
+          renderThumb={({ props }) => <div {...props} className="price-thumb" />}
         />
-        <div className="price-label">${priceRange[0]} - ${priceRange[1]}</div>
+        <div className="price-label">
+          ${priceRange[0]} - ${priceRange[1]}
+        </div>
       </div>
 
-      <hr className="section-divider" />
+      <hr />
 
-      <h3>SHOP BY COLOR</h3>
-<div className="color-filter-container">
-  <ul className="color-filter no-bullets">
-    {["Blue", "Black", "Green", "Pink", "Red", "Brown", "Yellow", "Purple","White"].map(
-      (color) => (
-        <li
-          key={color}
-          onClick={() =>
-            updateLocalFilters({
-              color: filters.color === color ? undefined : color, // Toggle chọn/bỏ
-            })
-          }
-          className={filters.color === color ? "active" : ""}
-        >
-          <span className={`color-box ${color.toLowerCase().replace(/\s/g, "-")}`} />
-          {color}
-        </li>
-      )
-    )}
-  </ul>
-</div>
-
+      <h3 className="sidebar-title">SHOP BY COLOR</h3>
+      <ul className="color-list">
+        {["Blue", "Black", "Green", "Pink", "Red", "Brown", "Yellow", "Purple", "White"].map((color) => (
+          <li
+            key={color}
+            className={filters.color === color ? "active" : ""}
+            onClick={() => setFilters((prev) => ({ ...prev, color }))}
+          >
+            <span className={`color-box ${color.toLowerCase()}`} />
+            {color}
+          </li>
+        ))}
+      </ul>
 
       {filters.category && (
         <>
-          <hr className="section-divider" />
-          <h3>SHOP BY SIZE</h3>
-          <ul className="size-filter no-bullets">
+          <hr />
+          <h3 className="sidebar-title">SHOP BY SIZE</h3>
+          <ul className="size-list">
             {(categorySizes[filters.category] || []).map((size) => (
-              <li key={size} className="size-item" onClick={() => updateLocalFilters({ size })}>
-                <span className="size-label">{size}</span>
+              <li key={size} onClick={() => setFilters((prev) => ({ ...prev, size }))}>
+                {size}
               </li>
             ))}
           </ul>
         </>
       )}
 
-      <hr className="section-divider" />
-
-      <button className="filter-btn" onClick={handleApplyFilters}>
+      <button className="apply-btn" onClick={applyFilters}>
         Apply Filter
       </button>
     </aside>
