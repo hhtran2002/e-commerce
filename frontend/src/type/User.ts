@@ -1,15 +1,21 @@
 export type User = {
   id: number;
-  username: string;
+  fullName: string;
   email: string;
-  phone: string;
-  description?: string;
+  createdAt: string;
+  //Những trường thuộc tính có hoặc không
+  username?: string;
+  phone?: string;
+  avatarUrl?: string;
+  roleId?: number;
 };
 
 export type UserInput = {
-  username: string;
+  fullName: string;
   email: string;
-  phone: string;
-  password: string;
-  description?: string;
+  password?: string;
+  phone?: string;
+  username?: string;
+  avatarUrl?: string;
+  roleId?: number;
 };

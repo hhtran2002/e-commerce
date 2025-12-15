@@ -18,6 +18,7 @@ import RegisterSection from "./src/page/Register";
 import ShoppingCart from "./src/page/ShoppingCart";
 import Checkout from "./src/page/Checkout";
 import MyAccount from "./src/page/MyAccount";
+import Chatbox from "./src/component/ChatBox";
 
 function App() {
   return (
@@ -63,6 +64,9 @@ function App() {
           <Route path="orders/*" element={<OrderManagement />} />
         </Route>
       </Routes>
+
+      <Chatbox />
+
     </>
   );
 }

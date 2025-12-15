@@ -1,173 +1,81 @@
+// src/component/UserAdmin.tsx
 import { useEffect, useState } from "react";
-import { User, UserInput } from "../type/User";
-import UserForm from "../component/UserForm";
+import { User } from "../type/User";
+import userApi from "../api/userApi";
 import UserTable from "../component/UserTable";
-import "../style/UserAdmin.css";
-// import Pagination from '../components/Pagination';
-import { FaArrowLeft } from "react-icons/fa";
+import "../style/UserAdmin.css"; 
 
 const UserManagement = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [editingUser, setEditingUser] = useState<User | null>(null);
-  const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
+  // --- Phân trang Client-side ---
   const [page, setPage] = useState(1);
-  const limit = 10;
-  const [totalCount, setTotalCount] = useState(0);
-  const totalPages = Math.ceil(totalCount / limit);
+  const limit = 10; 
 
-  const loadUsers = () => {
-    fetch(`http://localhost:3000/api/users?page=${page}&limit=${limit}`, {
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data.data || []);
-        setTotalCount(data.totalCount || 0);
-      })
-      .catch((err) => console.error("Error loading users:", err));
+  // Hàm gọi API lấy danh sách
+  const fetchUserList = async () => {
+    try {
+      setLoading(true);
+      // Gọi qua userApi -> axiosClient -> Tự lấy token localStorage
+      const response: any = await userApi.getAll();
+      
+      // Backend trả về dạng: { message: "...", data: [...] }
+      if (response && response.data) {
+        setUsers(response.data);
+      } else {
+        // Trường hợp API trả về mảng trực tiếp (fallback)
+        setUsers(Array.isArray(response) ? response : []);
+      }
+    } catch (error) {
+      console.error("Lỗi tải user:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/users?page=${page}&limit=${limit}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const arr = data?.data;
-        if (Array.isArray(arr)) {
-          setUsers(arr);
-          setTotalCount(data.totalCount || arr.length);
-        } else {
-          console.error("⚠️ Invalid user list:", data);
-        }
-      })
-      .catch((err) => console.error("Error loading users:", err));
-  }, [page]);
+    fetchUserList();
+  }, []);
 
-  // const handleAdd = () => {
-  //   setEditingUser(null);
-  //   setShowForm(true);
-  // };
-
-  const handleEdit = (user: User) => {
-    setEditingUser(user);
-    setShowForm(true);
-  };
-
-  const handleDelete = (id: number) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      fetch(`http://localhost:3000/api/users/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
-        },
-        credentials: "include",
-        redirect: "manual",
-      })
-        .then((res) => {
-          if (res.ok) loadUsers();
-          else console.error("Failed to delete user");
-        })
-        .catch((err) => console.error("Error deleting user:", err));
-    }
-  };
-
-  const handleFormSubmit = (user: UserInput | User) => {
-    if ("id" in user) {
-      fetch(`http://localhost:3000/api/users/${user.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
-        },
-        body: JSON.stringify(user),
-      })
-        .then((res) => res.json())
-        .then(() => {
-          loadUsers();
-          setShowForm(false);
-        })
-        .catch((err) => console.error("Error updating user:", err));
-    } else {
-      fetch("http://localhost:3000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error("Creation failed");
-          return res.json();
-        })
-        .then(() => {
-          loadUsers();
-          setShowForm(false);
-        })
-        .catch((err) => {
-          console.error("Error adding user:", err);
-          alert("Email already exists or data is invalid!");
-        });
-    }
-  };
-
-  const handleCancel = () => {
-    setShowForm(false);
-  };
-
+  // Tính toán cắt trang
+  const totalPages = Math.ceil(users.length / limit);
   const start = (page - 1) * limit;
   const currentUsers = users.slice(start, start + limit);
 
   return (
     <div className="user-management-container">
-      <h2 className="user-management-title">User Management</h2>
+      <h2 className="user-management-title">Quản lý User (Admin)</h2>
 
-      {showForm ? (
-        <>
-          <button onClick={handleCancel} className="back-button">
-            <FaArrowLeft /> Back
-          </button>
-
-          <UserForm
-            initialData={editingUser || undefined}
-            onSubmit={handleFormSubmit}
-            onCancel={handleCancel}
-          />
-        </>
+      {loading ? (
+        <div style={{ textAlign: "center", marginTop: 20 }}>Đang tải dữ liệu...</div>
       ) : (
         <>
-          <UserTable
-            users={currentUsers}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
+          <UserTable 
+            users={currentUsers} 
+            // Không truyền onEdit/onDelete vẫn chạy tốt nhờ dấu ? bên UserTable
           />
 
+          {/* Thanh phân trang */}
           {totalPages > 1 && (
             <div style={{ textAlign: "center", marginTop: 20 }}>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (pageNumber) => (
-                  <button
-                    key={pageNumber}
-                    style={{
-                      margin: 4,
-                      padding: "8px 12px",
-                      backgroundColor: pageNumber === page ? "#333" : "#eee",
-                      color: pageNumber === page ? "#fff" : "#000",
-                      border: "none",
-                      borderRadius: 4,
-                      cursor: "pointer",
-                    }}
-                    onClick={() => setPage(pageNumber)}
-                  >
-                    {pageNumber}
-                  </button>
-                )
-              )}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                <button
+                  key={pageNumber}
+                  onClick={() => setPage(pageNumber)}
+                  style={{
+                    margin: "0 5px",
+                    padding: "8px 12px",
+                    backgroundColor: pageNumber === page ? "#333" : "#eee",
+                    color: pageNumber === page ? "#fff" : "#000",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                >
+                  {pageNumber}
+                </button>
+              ))}
             </div>
           )}
         </>

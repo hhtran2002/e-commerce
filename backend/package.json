@@ -23,7 +23,8 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "bcryptjs": "^3.0.3",
+    "@google/generative-ai": "^0.24.1",
+    "bcryptjs": "^2.4.3",
     "cloudinary": "^2.8.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",

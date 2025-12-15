@@ -10,6 +10,8 @@ import AdminOrderRoute from "./route/AdminOrderRoute";
 import passwordRoutes from "./route/passwordRoute";
 import authRoutes from "./route/AuthRoute";
 import addressRoutes from "./route/AddressRoute";
+import { takeListUserRoutes } from "./route/TakeListUserRoute";
+import chatbotRoutes from "./route/ChatbotRoute";
 
 const app = express();
 
@@ -25,6 +27,8 @@ app.use("/admin/api/orders", AdminOrderRoute);
 app.use("/api/password", passwordRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/addresses", addressRoutes);
+app.use("/api/users", takeListUserRoutes);
+app.use("/api/chatbot", chatbotRoutes);
 
 AppDataSource.initialize()
   .then(() => {

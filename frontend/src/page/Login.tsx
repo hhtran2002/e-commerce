@@ -20,6 +20,12 @@ const LoginSection: React.FC = () => {
       // Backend trả về: { message, data: { message, token, user } } hoặc { message, token, user }
       // axiosClient interceptor đã unwrap response.data
       console.log("Login Response:", res);
+      // Cấu trúc thường là: res.data.accessToken hoặc res.accessToken
+      const token = res.data?.accessToken || res.data?.token || res.accessToken || res.token;
+      const user = res.data?.user || res.user;
+      // Lưu token vào LocalStorage (Bền vững hơn SessionStorage)
+      localStorage.setItem('token', token);
+      localStorage.setItem('userInfo', JSON.stringify(user));
 
       // Handle both formats
       const tokenData = res.data?.token || res.token;
