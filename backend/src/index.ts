@@ -6,9 +6,10 @@ import categoryRoutes from "./route/CategoryRoute";
 import uploadRoutes from "./route/UploadRoute";
 import CartRoute from "./route/CartRoute";
 import OrderRoute from "./route/OrderRoute";
+import AdminOrderRoute from "./route/AdminOrderRoute";
 import passwordRoutes from "./route/passwordRoute";
 import authRoutes from "./route/AuthRoute";
-
+import addressRoutes from "./route/AddressRoute";
 
 const app = express();
 
@@ -16,13 +17,14 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/products", productRoutes);
-app.use("/api/categories", categoryRoutes);   
+app.use("/api/categories", categoryRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/cart", CartRoute);
 app.use("/api/orders", OrderRoute);
+app.use("/admin/api/orders", AdminOrderRoute);
 app.use("/api/password", passwordRoutes);
 app.use("/api/auth", authRoutes);
-
+app.use("/api/addresses", addressRoutes);
 
 AppDataSource.initialize()
   .then(() => {

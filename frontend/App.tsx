@@ -17,6 +17,7 @@ import LoginSection from "./src/page/Login";
 import RegisterSection from "./src/page/Register";
 import ShoppingCart from "./src/page/ShoppingCart";
 import Checkout from "./src/page/Checkout";
+import MyAccount from "./src/page/MyAccount";
 
 function App() {
   return (
@@ -51,12 +52,15 @@ function App() {
         <Route path="/cart" element={<ShoppingCart />} />
         <Route path="/checkout" element={<Checkout />} />
 
+        {/* Trang My Account */}
+        <Route path="/myaccount/*" element={<MyAccount />} />
+
         {/* ==== SITE ADMIN ==== */}
         <Route path="/admin" element={<Admin />}>
           <Route index element={<AdminDashboard />} />
           <Route path="products" element={<ProductManagement />} />
           <Route path="users" element={<UserManagement />} />
-          <Route path="orders" element={<OrderManagement />} />
+          <Route path="orders/*" element={<OrderManagement />} />
         </Route>
       </Routes>
     </>
