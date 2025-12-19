@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "../style/OrderList.css";
 
 type Order = {
   id: number;

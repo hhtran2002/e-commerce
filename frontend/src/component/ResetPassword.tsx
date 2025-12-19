@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import "../style/Login.css"; // Dùng chung style với Login
 
 const ResetPassword: React.FC = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -37,24 +38,41 @@ const ResetPassword: React.FC = () => {
   return (
     <div className="login-section">
       <h2>Reset Password</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="password"
-          placeholder="New Password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Reset Password</button>
+      <p>Please enter your new password.</p>
+
+      <form className="login-form" onSubmit={handleSubmit}>
+        <div className="input-group">
+          <label>New Password</label>
+          <input
+            type="password"
+            placeholder="New Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label>Confirm Password</label>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <button className="login-btn" type="submit">
+          Reset Password
+        </button>
+
+        <p style={{ textAlign: "center", marginTop: 12 }}>
+          <Link to="/login">Back to Login</Link>
+        </p>
       </form>
-      {message && <p>{message}</p>}
+
+      {message && <p style={{ marginTop: 12 }}>{message}</p>}
     </div>
   );
 };

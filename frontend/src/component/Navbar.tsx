@@ -140,7 +140,7 @@ const Navbar: React.FC<NavbarProps> = ({ onCartClick }) => {
         <Link to="/">
           <img
             className="navbar-logo"
-            src="https://res.cloudinary.com/dywqgsjss/image/upload/v1763815926/Stitched-logo_4x_xmduvg.png"
+            src="https://res.cloudinary.com/dywqgsjss/image/upload/v1765891545/3e445f17-5be3-4088-a810-d1015e2aeb2b_jgwlxm.png"
             alt="Logo"
           />
         </Link>

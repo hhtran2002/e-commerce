@@ -1,155 +1,173 @@
-/* Toàn trang My Account */
+/* Nền + khoảng cách tổng thể */
 .my-account {
   width: 100%;
-  padding: 40px 0;
-  background-color: #fff;
+  padding: 0 0 70px;
+  background: #fff;
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Layout: Sidebar + Content */
+/* Cho content nằm giữa đẹp hơn */
 .account-content {
-  width: 90%;
-  max-width: 1300px;
+  width: 92%;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: flex-start;
-  gap: 50px;
+  gap: 40px;
 }
 
-/* Sidebar */
-.account-sidebar,
-.sidebar2-wrapper {
-  width: 250px;
-  min-width: 250px;
-  border-right: 1px solid #e5e5e5;
-  padding-right: 30px;
+/* Sidebar container */
+.sidebar2 {
+  width: 240px;
+  min-width: 240px;
+  background: #fff;
+
+  padding-top: 32px;      /* cách lề trên */
+  padding-right: 24px;
+
+  border-right: 1px solid #eee;
 }
 
-.account-sidebar ul,
-.sidebar2-wrapper ul {
+/* List */
+.sidebar2 ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.account-sidebar li,
-.sidebar2-wrapper li {
+/* Item */
+.sidebar2 li {
   margin-bottom: 18px;
 }
 
-.account-sidebar a,
-.sidebar2-wrapper a {
-  font-size: 15px;
-  color: #1a1a1a;
+/* Link */
+.sidebar2 a {
+  display: block;
+  padding: 6px 0;
+
+  font-size: 13px;
+  color: #000;            /* chữ đen */
   text-decoration: none;
-  letter-spacing: 0.5px;
-  transition: 0.3s;
+
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+
+  transition: 0.25s ease;
 }
 
-.account-sidebar a:hover,
-.sidebar2-wrapper a:hover {
-  color: #a87a68; /* giống màu trang stitched */
+/* Hover */
+.sidebar2 a:hover {
+  color: #222;
 }
 
-/* Mục đang active */
-.sidebar-active {
-  font-weight: 600;
-  color: #a87a68 !important;
+/* Active link (bạn thêm class này khi active route) */
+.sidebar2 a.active {
+  font-weight: 700;
+  position: relative;
 }
 
-/* Nội dung bên phải */
+/* Chấm nhỏ bên trái active (rất sang) */
+.sidebar2 a.active::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 5px;
+  height: 5px;
+  background: #000;
+  border-radius: 50%;
+}
+
+/* Content phải */
 .account-details {
   flex: 1;
   min-height: 300px;
-  padding: 10px 0 50px;
 }
 
-/* Title lớn như stitched */
-.account-details h2 {
-  font-size: 26px;
+/* Grid chia 2 cột: Details + Address */
+.account-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr; /* Details rộng hơn Address */
+  gap: 22px;
+  align-items: start;
+}
+
+/* Card style */
+.account-card {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  background: #fff;
+  padding: 22px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+}
+
+.account-card__header h2 {
+  font-size: 16px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-bottom: 25px;
-  font-weight: 500;
-}
-
-/* Bảng Order */
-.order-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.order-table th {
-  text-align: left;
-  padding: 12px 0;
-  border-bottom: 1px solid #e5e5e5;
-  font-size: 14px;
+  margin: 0 0 18px;
   font-weight: 600;
 }
 
-.order-table td {
-  padding: 14px 0;
-  border-bottom: 1px solid #f3f3f3;
-  font-size: 14px;
-  color: #444;
-}
-
-/* Address + Account Detail form */
-.account-form {
-  max-width: 500px;
-}
-
-.account-form label {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 6px;
-  font-weight: 500;
-}
-
-.account-form input {
+/* Form đẹp hơn (ăn vào input trong AccountDetails/Address) */
+.account-card input,
+.account-card select,
+.account-card textarea {
   width: 100%;
   padding: 12px 14px;
   border: 1px solid #ddd;
-  margin-bottom: 18px;
+  border-radius: 6px;
   font-size: 14px;
-  border-radius: 3px;
   transition: 0.2s;
+  background: #fff;
 }
 
-.account-form input:focus {
+.account-card input:focus,
+.account-card select:focus,
+.account-card textarea:focus {
   outline: none;
   border-color: #a87a68;
+  box-shadow: 0 0 0 3px rgba(168, 122, 104, 0.15);
 }
 
-/* Nút */
+/* Nút đồng bộ */
+.account-card button,
 .btn-save {
-  padding: 12px 28px;
-  background-color: #000;
+  width: 100%;
+  padding: 12px 18px;
+  background: #000;
   color: #fff;
   border: none;
-  letter-spacing: 1px;
+  border-radius: 6px;
+  letter-spacing: 1.2px;
   cursor: pointer;
-  transition: 0.3s;
   text-transform: uppercase;
+  transition: 0.25s;
 }
 
+.account-card button:hover,
 .btn-save:hover {
-  background-color: #333;
+  background: #222;
 }
 
 /* Mobile */
 @media (max-width: 900px) {
   .account-content {
     flex-direction: column;
-    gap: 30px;
+    gap: 24px;
   }
 
-  .account-sidebar,
   .sidebar2-wrapper {
     width: 100%;
     border-right: none;
-    border-bottom: 1px solid #e5e5e5;
-    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-right: 0;
+    padding-bottom: 14px;
+  }
+
+  .account-grid {
+    grid-template-columns: 1fr;
   }
 }

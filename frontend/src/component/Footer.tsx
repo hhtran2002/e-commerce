@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
     <div className="footer-container">
       <div className="footer-links">
         <div>
-          <img src="https://stitched-lb.com/wp-content/uploads/2024/07/Stitched-white@4x.png" alt="Stitched-lb" />
+          <img src="https://res.cloudinary.com/dywqgsjss/image/upload/v1765891545/3e445f17-5be3-4088-a810-d1015e2aeb2b_jgwlxm.png" alt="eshop-lb" />
         </div>
         <div>
           <h3>SHOP NOW</h3>

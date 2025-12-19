@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import AddressForm from "./AddressForm";
-import "../style/Address.css";
 import AddressList from "./AddressList";
 
 const Address: React.FC = () => {
