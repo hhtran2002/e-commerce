@@ -19,6 +19,7 @@ import ShoppingCart from "./src/page/ShoppingCart";
 import Checkout from "./src/page/Checkout";
 import MyAccount from "./src/page/MyAccount";
 import Chatbox from "./src/component/ChatBox";
+import OrderDetail from "./src/component/OrderDetail";
 
 function App() {
   return (
@@ -55,6 +56,8 @@ function App() {
 
         {/* Trang My Account */}
         <Route path="/myaccount/*" element={<MyAccount />} />
+        <Route path="/myaccount/orders/:orderId" element={<OrderDetail />} />
+
 
         {/* ==== SITE ADMIN ==== */}
         <Route path="/admin" element={<Admin />}>

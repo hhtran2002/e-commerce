@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 type Order = {
   id: number;
@@ -136,8 +137,8 @@ const OrderList: React.FC<{ userId: number }> = ({ userId }) => {
               <td>{order.orderStatus?.status ?? "Unknown"}</td>
               <td>${order.order_total}</td>
               <td>
-                <a href={`/orders/${order.id}`}>View</a>{" "}
-                {order.orderStatus?.id === 5 && (
+                <Link to={`/myaccount/orders/${order.id}`}>View</Link>{" "}
+                {order.orderStatus?.status === "PENDING" && (
                   <button onClick={() => handleCancel(order.id)}>Cancel</button>
                 )}
               </td>

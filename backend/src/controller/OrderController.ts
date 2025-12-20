@@ -47,7 +47,7 @@ export class OrderController {
       // Map backend order shape to frontend expected shape
       const mapped = orders.map((o) => ({
         id: o.id,
-        guest_name: o.user?.username || "",
+        guest_name: o.user?.userName || "",
         guest_phone: (o.user && (o.user as any).phone) || "",
         guest_email: (o.user && (o.user as any).email) || "",
         user: o.user
@@ -183,4 +183,22 @@ export class OrderController {
         .json({ message: err.message || "Internal server error" });
     }
   }
+  // GET /api/orders/:orderId
+async getById(req: Request, res: Response) {
+  try {
+    const orderId = Number(req.params.orderId);
+    if (Number.isNaN(orderId)) {
+      return res.status(400).json({ message: "Invalid orderId" });
+    }
+
+    const order = await orderService.getOrderById(orderId);
+    if (!order) return res.status(404).json({ message: "Order not found" });
+
+    return res.json(order);
+  } catch (err: any) {
+    console.error("Error fetching order by id:", err);
+    return res.status(500).json({ message: err.message || "Internal server error" });
+  }
+}
+
 }

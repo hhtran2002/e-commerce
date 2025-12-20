@@ -14,4 +14,6 @@ router.put("/:orderId/status", (req, res) =>
   orderController.updateStatus(req, res)
 );
 
+router.get("/:orderId", (req, res) => orderController.getById(req, res));
+
 export default router;

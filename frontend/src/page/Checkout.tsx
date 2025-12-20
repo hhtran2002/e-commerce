@@ -19,6 +19,8 @@ const Checkout: React.FC = () => {
   );
   const shipping = 0;
   const total = subtotal + shipping;
+  const user = JSON.parse(localStorage.getItem("user") || "null"); // tuỳ key bạn lưu
+  const userId = user?.id;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,23 +34,28 @@ const Checkout: React.FC = () => {
       alert("Cart is empty.");
       return;
     }
+       const userInfoStr = localStorage.getItem("userInfo");
+    const userInfo = userInfoStr ? JSON.parse(userInfoStr) : null;
+    const userId = Number(userInfo?.id);
+
+    console.log("DEBUG userInfo:", userInfo);
+    console.log("DEBUG userId:", userId);
+
+    if (!userId) {
+      alert("Bạn chưa đăng nhập (userId không tồn tại). Hãy login lại.");
+      navigate("/login");
+      return;
+    }
 
     try {
       setLoading(true);
 
       const body = {
-        userId: 1, // tạm thời, nếu backend cần userId
-        fullName,
-        shippingAddress: address, // 🔥 backend yêu cầu shippingAddress
-        phone,
-        subtotal,
-        shipping,
-        total,
+        userId,
+        shippingAddress: address,
         items: cart.map((item) => ({
-          productId: item.id,
-          name: item.name,
-          quantity: item.quantity,
-          price: item.price,
+          quantity: Number(item.quantity) || 1,
+          price: Number(item.price) || 0,
         })),
       };
 

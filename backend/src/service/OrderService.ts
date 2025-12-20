@@ -154,4 +154,13 @@ export class OrderService {
     await this.orderRepo.save(order);
     return order;
   }
+
+  async getOrderById(orderId: number): Promise<Order | null> {
+  return this.orderRepo.findOne({
+    where: { id: orderId },
+    relations: ["user", "items"],
+  });
 }
+
+}
+

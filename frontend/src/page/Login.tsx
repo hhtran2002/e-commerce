@@ -9,58 +9,100 @@ const LoginSection: React.FC = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // const handleLogin = async () => {
+  //   try {
+  //     // Gọi API qua axios
+  //     const res: any = await authApi.login({
+  //       email: email,
+  //       password: password,
+  //     });
+
+  //     // Backend trả về: { message, data: { message, token, user } } hoặc { message, token, user }
+  //     // axiosClient interceptor đã unwrap response.data
+  //     console.log("Login Response:", res);
+  //     // Cấu trúc thường là: res.data.accessToken hoặc res.accessToken
+  //     const token = res.data?.accessToken || res.data?.token || res.accessToken || res.token;
+  //     const user = res.data?.user || res.user;
+  //     // Lưu token vào LocalStorage (Bền vững hơn SessionStorage)
+  //     localStorage.setItem('token', token);
+  //     localStorage.setItem('userInfo', JSON.stringify(user));
+
+  //     // Handle both formats
+  //     const tokenData = res.data?.token || res.token;
+  //     const userData = res.data?.user || res.user;
+
+  //     console.log("res.token:", tokenData);
+  //     console.log("res.user:", userData);
+
+  //     if (!tokenData || !userData) {
+  //       alert("Login failed: missing token or user data");
+  //       return;
+  //     }
+
+  //     // Lưu token và user info vào LocalStorage (Bền vững hơn SessionStorage)
+  //     localStorage.setItem("token", tokenData);
+  //     localStorage.setItem("userInfo", JSON.stringify(userData));
+
+  //     console.log(
+  //       "After saving - localStorage.token:",
+  //       localStorage.getItem("token")
+  //     );
+  //     console.log(
+  //       "After saving - localStorage.userInfo:",
+  //       localStorage.getItem("userInfo")
+  //     );
+
+  //     alert("Login Successful!");
+  //     navigate("/"); // Chuyển về trang chủ
+  //   } catch (error: any) {
+  //     console.error("Login Error:", error);
+  //     // Lấy thông báo lỗi từ Backend trả về
+  //     const message = error.response?.data?.message || "Login failed";
+  //     alert(message);
+  //   }
+  // };
+
   const handleLogin = async () => {
-    try {
-      // Gọi API qua axios
-      const res: any = await authApi.login({
-        email: email,
-        password: password,
-      });
+  try {
+    const res: any = await authApi.login({ email, password });
 
-      // Backend trả về: { message, data: { message, token, user } } hoặc { message, token, user }
-      // axiosClient interceptor đã unwrap response.data
-      console.log("Login Response:", res);
-      // Cấu trúc thường là: res.data.accessToken hoặc res.accessToken
-      const token = res.data?.accessToken || res.data?.token || res.accessToken || res.token;
-      const user = res.data?.user || res.user;
-      // Lưu token vào LocalStorage (Bền vững hơn SessionStorage)
-      localStorage.setItem('token', token);
-      localStorage.setItem('userInfo', JSON.stringify(user));
+    console.log("Login Response:", res);
 
-      // Handle both formats
-      const tokenData = res.data?.token || res.token;
-      const userData = res.data?.user || res.user;
+    // Vì interceptor đã unwrap, res có thể là:
+    // 1) { token, user }
+    // 2) { data: { token, user } }
+    // 3) { message, data: { token, user } }
+    const token =
+      res?.token ||
+      res?.data?.token ||
+      res?.data?.data?.token;
 
-      console.log("res.token:", tokenData);
-      console.log("res.user:", userData);
+    const user =
+      res?.user ||
+      res?.data?.user ||
+      res?.data?.data?.user;
 
-      if (!tokenData || !userData) {
-        alert("Login failed: missing token or user data");
-        return;
-      }
-
-      // Lưu token và user info vào LocalStorage (Bền vững hơn SessionStorage)
-      localStorage.setItem("token", tokenData);
-      localStorage.setItem("userInfo", JSON.stringify(userData));
-
-      console.log(
-        "After saving - localStorage.token:",
-        localStorage.getItem("token")
-      );
-      console.log(
-        "After saving - localStorage.userInfo:",
-        localStorage.getItem("userInfo")
-      );
-
-      alert("Login Successful!");
-      navigate("/"); // Chuyển về trang chủ
-    } catch (error: any) {
-      console.error("Login Error:", error);
-      // Lấy thông báo lỗi từ Backend trả về
-      const message = error.response?.data?.message || "Login failed";
-      alert(message);
+    if (!token || !user?.id) {
+      console.log("Parsed token:", token);
+      console.log("Parsed user:", user);
+      alert("Login failed: missing token or user.id");
+      return;
     }
-  };
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("userInfo", JSON.stringify(user));
+
+    console.log("Saved token:", localStorage.getItem("token"));
+    console.log("Saved userInfo:", localStorage.getItem("userInfo"));
+
+    alert("Login Successful!");
+    navigate("/");
+  } catch (error: any) {
+    console.error("Login Error:", error);
+    const message = error.response?.data?.message || "Login failed";
+    alert(message);
+  }
+};
 
   return (
     <div className="login-section">
