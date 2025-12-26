@@ -104,16 +104,17 @@ const OrderList: React.FC<{ userId: number }> = ({ userId }) => {
   };
 
   return (
-    <div>
-      <h1>Order List</h1>
+  <div className="order-list">
+    <h1 className="order-title">My Orders</h1>
 
-      {notification && (
-        <div className={`notification ${notification.type}`}>
-          {notification.message}
-        </div>
-      )}
+    {notification && (
+      <div className={`notification ${notification.type}`}>
+        {notification.message}
+      </div>
+    )}
 
-      <table>
+    <div className="order-table-wrapper">
+      <table className="order-table">
         <thead>
           <tr>
             <th>Order ID</th>
@@ -127,27 +128,35 @@ const OrderList: React.FC<{ userId: number }> = ({ userId }) => {
         <tbody>
           {orders.map((order) => (
             <tr key={order.id}>
-              <td>#{order.id}</td>
+              <td className="order-id">#{order.id}</td>
               <td>{new Date(order.orderDate).toLocaleDateString()}</td>
               <td>
-                {order.shippingAddress?.city +
-                  ", " +
-                  order.shippingAddress?.street_name}
+                {order.shippingAddress?.city},{" "}
+                {order.shippingAddress?.street_name}
               </td>
-              <td>{order.orderStatus?.status ?? "Unknown"}</td>
-              <td>${order.order_total}</td>
               <td>
-                <Link to={`/myaccount/orders/${order.id}`}>View</Link>{" "}
-                {order.orderStatus?.status === "PENDING" && (
-                  <button onClick={() => handleCancel(order.id)}>Cancel</button>
-                )}
+                <span
+                  className={`order-status ${
+                    order.orderStatus?.status?.toLowerCase()
+                  }`}
+                >
+                  {order.orderStatus?.status ?? "Unknown"}
+                </span>
+              </td>
+              <td className="order-total">${order.order_total}</td>
+              <td className="order-actions">
+                <Link to={`/myaccount/orders/${order.id}`} className="view-btn">
+                  View
+                </Link>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default OrderList;

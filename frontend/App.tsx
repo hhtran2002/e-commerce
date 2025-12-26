@@ -3,7 +3,6 @@ import Home from "./src/page/Home";
 import Swimwear from "./src/page/Swimwear";
 import Navbar from "./src/component/Navbar";
 import Accessories from "./src/page/Accessories";
-import Sale from "./src/page/Sale";
 import ClothingPage from "./src/page/Clothing";
 import ItemPage from "./src/page/ItemPage";
 import OrderManagement from "./src/component/OrderAdmin";
@@ -45,7 +44,6 @@ function App() {
         {/* Các trang khác */}
         <Route path="/swimwear" element={<Swimwear />} />
         <Route path="/accessories" element={<Accessories />} />
-        <Route path="/sale" element={<Sale />} />
 
         {/* Trang chi tiết sản phẩm */}
         <Route path="/product/:productId" element={<ItemPage />} />

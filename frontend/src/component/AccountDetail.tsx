@@ -384,123 +384,105 @@ const AccountDetails: React.FC = () => {
       </form>
 
       {/* Address Section */}
-      <div className="address-section" style={{ marginTop: "40px" }}>
-        <h2>Address</h2>
-        <div style={{ marginBottom: "20px" }}>
-          <button
-            type="button"
-            className="save-button"
-            onClick={() => setShowAddressForm(!showAddressForm)}
-            style={{ marginBottom: "20px" }}
-          >
-            {showAddressForm ? "Cancel" : "Add New Address"}
-          </button>
-        </div>
+        <div className="address-section">
+          <h2>Address</h2>
 
-        {showAddressForm && (
-          <form onSubmit={handleAddressSubmit} style={{ marginBottom: "30px" }}>
-            <h3>{editingAddressId ? "Edit Address" : "Add New Address"}</h3>
-
-            <div className="input-group">
-              <label>Street Name *</label>
-              <input
-                type="text"
-                name="streetName"
-                value={addressFormData.streetName}
-                onChange={handleAddressChange}
-                required
-                placeholder="Enter street name"
-              />
-            </div>
-
-            <div className="input-group">
-              <label>Ward</label>
-              <input
-                type="text"
-                name="ward"
-                value={addressFormData.ward}
-                onChange={handleAddressChange}
-                placeholder="Enter ward (optional)"
-              />
-            </div>
-
-            <div className="input-group">
-              <label>City *</label>
-              <input
-                type="text"
-                name="city"
-                value={addressFormData.city}
-                onChange={handleAddressChange}
-                required
-                placeholder="Enter city"
-              />
-            </div>
-
-            <div className="input-group">
-              <label>Country *</label>
-              <input
-                type="text"
-                name="country"
-                value={addressFormData.country}
-                onChange={handleAddressChange}
-                required
-                placeholder="Enter country"
-              />
-            </div>
-
-            <button type="submit" className="save-button">
-              {editingAddressId ? "UPDATE ADDRESS" : "ADD ADDRESS"}
+          <div className="address-action">
+            <button
+              type="button"
+              className="save-button"
+              onClick={() => setShowAddressForm(!showAddressForm)}
+            >
+              {showAddressForm ? "Cancel" : "Add New Address"}
             </button>
-          </form>
-        )}
+          </div>
 
-        {/* Display existing addresses (placeholder) */}
-        <div className="existing-addresses">
-          <h3>Your Addresses</h3>
-          {addresses.length > 0 ? (
-            <div>
-              {addresses.map((addr: any) => (
-                <div
-                  key={addr.id}
-                  className="address-item"
-                  style={{
-                    padding: "10px",
-                    marginBottom: "10px",
-                    border: "1px solid #eee",
-                    borderRadius: "4px",
-                  }}
-                >
+          {showAddressForm && (
+            <form onSubmit={handleAddressSubmit} className="address-form">
+              <h3>{editingAddressId ? "Edit Address" : "Add New Address"}</h3>
+
+              <div className="input-group">
+                <label>Street Name *</label>
+                <input
+                  type="text"
+                  name="streetName"
+                  value={addressFormData.streetName}
+                  onChange={handleAddressChange}
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <label>Ward</label>
+                <input
+                  type="text"
+                  name="ward"
+                  value={addressFormData.ward}
+                  onChange={handleAddressChange}
+                />
+              </div>
+
+              <div className="input-group">
+                <label>City *</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={addressFormData.city}
+                  onChange={handleAddressChange}
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <label>Country *</label>
+                <input
+                  type="text"
+                  name="country"
+                  value={addressFormData.country}
+                  onChange={handleAddressChange}
+                  required
+                />
+              </div>
+
+              <button type="submit" className="save-button">
+                {editingAddressId ? "UPDATE ADDRESS" : "ADD ADDRESS"}
+              </button>
+            </form>
+          )}
+
+          <div className="existing-addresses">
+            <h3>Your Addresses</h3>
+
+            {addresses.length > 0 ? (
+              addresses.map((addr: any) => (
+                <div key={addr.id} className="address-item">
                   <p>
                     <strong>{addr.streetName}</strong>
-                    {addr.ward ? `, ${addr.ward}` : ""}, {addr.city},{" "}
-                    {addr.country}
+                    {addr.ward ? `, ${addr.ward}` : ""}, {addr.city}, {addr.country}
                   </p>
-                  <div style={{ marginTop: 8 }}>
-                    <button
-                      type="button"
-                      onClick={() => handleEditAddress(addr)}
-                      style={{ marginRight: 8 }}
-                    >
+
+                  <div className="address-buttons">
+                    <button type="button" onClick={() => handleEditAddress(addr)}>
                       Edit
                     </button>
                     <button
                       type="button"
+                      className="delete-btn"
                       onClick={() => handleDeleteAddress(addr.id)}
-                      style={{ color: "red" }}
                     >
                       Delete
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p style={{ color: "#999" }}>
-              No addresses saved yet. Add your first address above.
-            </p>
-          )}
+              ))
+            ) : (
+              <p className="empty-address">
+                No addresses saved yet. Add your first address above.
+              </p>
+            )}
+          </div>
         </div>
-      </div>
+
     </div>
   );
 };

@@ -1,57 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductList from "../component/ProductList";
-import FilteredProductList from "../component/FilteredProductList";
-import Sidebar, { FilterOptions } from "../component/Sidebar";
 import Breadcrumb from "../component/Breadcrumb";
 import "../style/CategoryPage.css";
 import Pagination from "../component/Pagination";
 
-// Ánh xạ slug URL -> id
+// Map slug URL -> categoryId
 const mapCategoryToId = (category: string): number | null => {
   const map: Record<string, number> = {
-    accessories: 0,   // parent accessories, nếu có id riêng hãy thay
+    accessories: 0,
     "shoes-and-bags": 10,
     jewelry: 9,
   };
   return map[category.toLowerCase()] ?? null;
 };
 
+// Accessories gồm nhiều sub-category
 const accessoriesSubcategoryIds = [9, 10];
 
 const Accessories: React.FC = () => {
   const { category } = useParams();
+
   const categoryIdFromUrl = category ? mapCategoryToId(category) : null;
 
+  // Nếu có slug hợp lệ → dùng 1 category
+  // Không có slug → load toàn bộ accessories
   const categoryIdsToUse =
-    categoryIdFromUrl !== null ? [categoryIdFromUrl] : accessoriesSubcategoryIds;
+    categoryIdFromUrl !== null
+      ? [categoryIdFromUrl]
+      : accessoriesSubcategoryIds;
 
   const [page, setPage] = useState(1);
   const limit = 12;
   const [totalCount, setTotalCount] = useState(0);
 
-  const [filters, setFilters] = useState<FilterOptions>({});
-  const [isFiltering, setIsFiltering] = useState(false);
-
-  const handleFilterChange = (newFilters: FilterOptions) => {
-    setFilters(newFilters);
-    setIsFiltering(true);
-    setPage(1);
-  };
-
-  const handleClearFilters = () => {
-    setFilters({});
-    setIsFiltering(false);
-    setPage(1);
-  };
-
   const totalPages = Math.ceil(totalCount / limit);
 
-  useEffect(() => {
-    setFilters({});
-    setIsFiltering(false);
-  }, [category]);
-
+  // Slug không hợp lệ
   if (category && categoryIdFromUrl === null) {
     return (
       <main className="category-page accessories-page">
@@ -64,39 +49,16 @@ const Accessories: React.FC = () => {
   return (
     <main className="category-page accessories-page">
       <Breadcrumb title="Accessories" />
+
       <div className="content-container">
-        <Sidebar
-          onFilterChange={handleFilterChange}
-          allowedCategories={["Accessories"]}
-        />
-
         <div className="right-content">
-          {isFiltering && (
-            <div className="filter-bar">
-              <button className="filter-btn" onClick={handleClearFilters}>
-                Delete Filter
-              </button>
-            </div>
-          )}
-
           <div className="category-products-wrapper">
-            {isFiltering ? (
-              <FilteredProductList
-                filters={filters}
-                parentCategoryId={0}
-                allowedSubcategoryIds={accessoriesSubcategoryIds}
-                page={page}
-                limit={limit}
-                onTotalCountChange={setTotalCount}
-              />
-            ) : (
-              <ProductList
-                categoryIds={categoryIdsToUse}
-                page={page}
-                limit={limit}
-                onTotalCountChange={setTotalCount}
-              />
-            )}
+            <ProductList
+              categoryIds={categoryIdsToUse}
+              page={page}
+              limit={limit}
+              onTotalCountChange={setTotalCount}
+            />
           </div>
 
           {totalPages > 1 && (

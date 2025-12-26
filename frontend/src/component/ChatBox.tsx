@@ -9,20 +9,26 @@ type Message = {
 
 const ChatWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [size, setSize] = useState<"normal" | "expanded" | "fullscreen">("normal");
   const [messages, setMessages] = useState<Message[]>([
-    { id: 1, from: "bot", text: "Xin chào 👋 Mình là trợ lý ảo của shop. Bạn cần tư vấn size, phong cách hay đơn hàng nào không?" }
+    {
+      id: 1,
+      from: "bot",
+      text:
+        "Hello, I'm the shop's virtual assistant. How can I help you today?",
+    },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  const toggleOpen = () => setIsOpen(prev => !prev);
+  const toggleOpen = () => setIsOpen((prev) => !prev);
 
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages, isOpen]);
+  }, [messages, isOpen, size]);
 
   const handleSend = async () => {
     const trimmed = input.trim();
@@ -34,12 +40,11 @@ const ChatWidget: React.FC = () => {
       text: trimmed,
     };
 
-    setMessages(prev => [...prev, userMsg]);
+    setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
 
     try {
-      // Gửi lên backend gọi AI
       const res = await fetch("http://localhost:3000/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -51,18 +56,21 @@ const ChatWidget: React.FC = () => {
       const botMsg: Message = {
         id: Date.now() + 1,
         from: "bot",
-        text: data.reply ?? "Xin lỗi, hiện tại mình chưa trả lời được câu này 😢",
+        text:
+          data.reply ??
+          "Sorry, I can't answer this question right now.",
       };
 
-      setMessages(prev => [...prev, botMsg]);
+      setMessages((prev) => [...prev, botMsg]);
     } catch (err) {
       console.error(err);
-      setMessages(prev => [
+      setMessages((prev) => [
         ...prev,
         {
           id: Date.now() + 2,
           from: "bot",
-          text: "Oops, hệ thống đang bận. Bạn thử lại sau một chút nhé 🛠️",
+          text:
+            "The system is currently unavailable. Please try again later.",
         },
       ]);
     } finally {
@@ -77,6 +85,16 @@ const ChatWidget: React.FC = () => {
     }
   };
 
+  const toggleSize = () => {
+    setSize((prev) =>
+      prev === "normal"
+        ? "expanded"
+        : prev === "expanded"
+        ? "fullscreen"
+        : "normal"
+    );
+  };
+
   return (
     <>
       {/* Nút bong bóng */}
@@ -86,43 +104,59 @@ const ChatWidget: React.FC = () => {
 
       {/* Cửa sổ chat */}
       {isOpen && (
-        <div className="chat-widget">
+        <div className={`chat-widget ${size}`}>
           <div className="chat-header">
-            <div>
-              <div className="chat-title">Trợ lý ảo Stitched</div>
-              <div className="chat-subtitle">Online 24/7 ✨</div>
+            <div className="chat-title">Virtual Assistant</div>
+
+            <div className="chat-actions">
+              <button
+                className="chat-action-btn"
+                onClick={toggleSize}
+                title="Phóng to / Thu nhỏ"
+              >
+                ⛶
+              </button>
+              <button className="chat-close-btn" onClick={toggleOpen}>
+                ✕
+              </button>
             </div>
-            <button className="chat-close-btn" onClick={toggleOpen}>✕</button>
           </div>
 
           <div className="chat-body">
-            {messages.map(msg => (
+            {messages.map((msg) => (
               <div
                 key={msg.id}
-                className={`chat-message ${msg.from === "user" ? "from-user" : "from-bot"}`}
+                className={`chat-message ${
+                  msg.from === "user" ? "from-user" : "from-bot"
+                }`}
               >
-                <div className="chat-bubble">
-                  {msg.text}
-                </div>
+                <div className="chat-bubble">{msg.text}</div>
               </div>
             ))}
+
             {loading && (
               <div className="chat-message from-bot">
-                <div className="chat-bubble typing">Đang trả lời...</div>
+                <div className="chat-bubble typing">
+                  Typing...
+                </div>
               </div>
             )}
+
             <div ref={messagesEndRef} />
           </div>
 
           <div className="chat-input-area">
             <input
               value={input}
-              onChange={e => setInput(e.target.value)}
+              onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Nhập câu hỏi của bạn..."
+              placeholder="Enter your question..."
             />
-            <button onClick={handleSend} disabled={loading || !input.trim()}>
-              Gửi
+            <button
+              onClick={handleSend}
+              disabled={loading || !input.trim()}
+            >
+              Send
             </button>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import OrderList from "../component/OrderList";
-import Address from "../component/Address";
 import AccountDetails from "../component/AccountDetail";
 import "../style/MyAccount.css";
 import Breadcrumb from "../component/Breadcrumb";
@@ -10,13 +9,8 @@ import Sidebar2 from "../component/Sidebar2";
 const AccountDashboard = () => {
   return (
     <div className="account-grid">
-      <div className="account-card">
-        <h2 className="account-card-title">Address</h2>
-        <Address />
-      </div>
 
       <div className="account-card">
-        <h2 className="account-card-title">Account Details</h2>
         <AccountDetails />
       </div>
     </div>

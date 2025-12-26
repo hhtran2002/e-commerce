@@ -8,7 +8,7 @@
   height: 100px;
   padding: 0 50px;
 
-  background-color: #413e3e;
+  background-color: #151313;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -37,7 +37,7 @@
 .breadcrumb-back svg {
   width: 28px;
   height: 28px;
-  stroke: #222;
+  stroke: #1b1919;
 
   transition: transform 0.2s ease;
 }

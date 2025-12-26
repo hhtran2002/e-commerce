@@ -30,7 +30,6 @@ type NavbarProps = {
 
 const Navbar: React.FC<NavbarProps> = ({ onCartClick }) => {
   const [showSearch, setShowSearch] = useState(false);
-  const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
   // Sửa từ sessionStorage thành localStorage để khớp với nơi lưu login
   const token = localStorage.getItem("token");
@@ -43,13 +42,6 @@ const Navbar: React.FC<NavbarProps> = ({ onCartClick }) => {
     const decoded = decodeToken(token);
     const roles = decoded?.resource_access?.["express-api"]?.roles || [];
     isAdmin = roles.includes("admin");
-  }
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchText.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchText.trim())}`);
-      setShowSearch(false);
-    }
   };
 
   const handleLogout = () => {
@@ -130,9 +122,7 @@ const Navbar: React.FC<NavbarProps> = ({ onCartClick }) => {
                 </li>
               </ul>
             </li>
-            <li>
-              <Link to="/sale">SALE</Link>
-            </li>
+           
           </ul>
         </nav>
 
@@ -148,15 +138,6 @@ const Navbar: React.FC<NavbarProps> = ({ onCartClick }) => {
         {/* Right - Icons */}
         <nav className="nav-section right">
           <ul className="nav_link icon-links">
-            <li>
-              <button
-                onClick={() => setShowSearch((prev) => !prev)}
-                title="Search"
-                className="icon-button"
-              >
-                <FaSearch />
-              </button>
-            </li>
             {!isAdmin && token && (
               <>
                 <li>
@@ -166,14 +147,11 @@ const Navbar: React.FC<NavbarProps> = ({ onCartClick }) => {
                 </li>
 
                 <li>
-                  <button
-                    onClick={onCartClick}
-                    title="Shopping Cart"
-                    className="cart-button"
-                  >
-                    <FaShoppingCart />
-                  </button>
-                </li>
+                <Link to="/cart" title="Shopping Cart" className="cart-button">
+                  <FaShoppingCart />
+                </Link>
+              </li>
+
               </>
             )}
 
@@ -212,27 +190,6 @@ const Navbar: React.FC<NavbarProps> = ({ onCartClick }) => {
           onClick={() => setShowSearch(false)}
         ></div>
       )}
-
-      {/* Popup tìm kiếm full màn hình */}
-      <div className={`search-popup-container ${showSearch ? "show" : ""}`}>
-        <button
-          type="button"
-          className="close-search"
-          onClick={() => setShowSearch(false)}
-        >
-          ✕
-        </button>
-
-        <form className="search-popup" onSubmit={handleSearchSubmit}>
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-          <button type="submit">Search</button>
-        </form>
-      </div>
     </header>
   );
 };

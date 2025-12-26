@@ -16,7 +16,6 @@ import addressRoutes from "./route/AddressRoute";
 import { takeListUserRoutes } from "./route/TakeListUserRoute";
 import chatbotRoutes from "./route/ChatbotRoute";
 import { ChatbotService } from "./service/ChatBotService_tmp";
-
 const app = express();
 
 app.use(cors());
@@ -33,7 +32,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/addresses", addressRoutes);
 app.use("/api/users", takeListUserRoutes);
 app.use("/api/chatbot", chatbotRoutes);
-
 // Test new chatbot service
 app.post("/api/chat", async (req, res) => {
   try {
